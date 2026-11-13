@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+test-results/
+playwright-report/
+*.tsbuildinfo
+next-env.d.ts
+.env*
+!.env.example
+
+# 由 scripts/sync-legacy.mjs 从 References 生成（约 47MB），不入库
+/public/legacy/

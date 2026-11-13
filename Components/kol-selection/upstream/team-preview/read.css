@@ -1,0 +1,8 @@
+[data-action="new-kol"],[data-action="new-idea"],[data-action="idea-from-selected"],
+[data-action="edit-budgets"],[data-action="new-edge"],[data-action="import"],[data-action="export"],
+[data-action="save-modal"],[data-action="archive-idea"],[data-action="add-selected"],
+[data-remove-member],[data-remove-image],label:has([data-upload-image]),[data-avatar-upload],
+[data-member-query],#member-picker,[data-nav="sources"],.nav-group:has(+[data-nav="sources"]) {display:none !important}
+[data-select-kol]{pointer-events:none;opacity:.9}
+#save-state{white-space:nowrap;color:#147462;font-weight:600}
+.drawer :is(input,textarea,select):disabled,.drawer :is(input,textarea):read-only{opacity:1;-webkit-text-fill-color:currentColor}

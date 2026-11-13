@@ -1,0 +1,52 @@
+/* Host shell owns branding and navigation; the original ten workspaces stay intact. */
+html { color-scheme: light; }
+body { font-size: .875rem; }
+#app > .sidebar { display: none !important; }
+#app > .topbar { margin-left: 0 !important; height: 2.75rem; padding: 0 1.75rem; background: var(--surface); backdrop-filter: none; }
+#app > .topbar .date { display: none; }
+#app > .topbar .breadcrumb { font-size: .75rem; }
+#app > .main { margin-left: 0 !important; padding: 1.75rem 1.75rem 2.5rem; max-width: 108rem; margin-right: auto; }
+.page-head { gap: 1rem; flex-wrap: wrap; }
+.page-head h1 { font-size: 1.75rem; letter-spacing: -.025em; }
+.description { max-width: 62rem; }
+.metric, .panel, .kol-card, .idea-card, .sell-card { border-radius: .875rem; }
+.btn, input, select, textarea { border-radius: .5rem; }
+.btn { min-height: 2.25rem; }
+button, a, input, select, textarea { outline-color: var(--accent); }
+.drawer { max-width: min(53rem,100vw); }
+dialog.plan-dialog { max-width: min(50rem,calc(100vw - 2rem)); }
+.caption, .description, .note, .bottom-note { overflow-wrap: anywhere; }
+.network-workspace { min-height: 33rem; }
+[data-mikoshi-motion="reduce"] *, [data-mikoshi-motion="reduce"] *::before, [data-mikoshi-motion="reduce"] *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+
+html[data-mikoshi-theme="dark"] { color-scheme: dark; --success: #66c8b1; --warn: #e8ba70; --danger: #f08d83; }
+[data-mikoshi-theme="dark"] :is(.filters,.filterbar) { background: var(--surface); border-color: var(--line); }
+[data-mikoshi-theme="dark"] :is(.btn,.metric,.panel,.kol-card,.idea-card,.sell-card,.drawer,.drawer-footer,.form-section,.check-item,.video-item,.plan-dialog,.plan-card,.plan-toolbar,.plan-column,.cal-sidebar,.cal-grid,.cal-toolbar,.cal-day-detail,.fac-panel,.fac-inspector,.fac-block,.fac-base,.network-filters,.network-controls,.network-details,.network-relation-row) { background: var(--surface); color: var(--fg); border-color: var(--line); }
+[data-mikoshi-theme="dark"] :is(input,select,textarea,th,.note,.budget-mini,.idea-footer,.image-slot,.relationship-metrics,.budget-progress,.perf-card,.perf-summary,.network-stage,.network-corner,.plan-empty) { background: var(--subtle); color: var(--fg); border-color: var(--line); }
+[data-mikoshi-theme="dark"] :is(.btn.primary,.plan-switch .is-on) { background: var(--accent); color: #fff; }
+[data-mikoshi-theme="dark"] :is(.kol-card.selected,.budget-mini.active,.relation-item.active) { background: var(--accent-soft); border-color: var(--accent); }
+[data-mikoshi-theme="dark"] :is(.btn:hover,tbody tr:hover,.member-item:hover,.network-relation-row:hover) { background: var(--subtle); }
+[data-mikoshi-theme="dark"] :is(.perf-card b,.perf-card span,.perf-card small,.network-person h2,.network-details-body h3) { color: var(--fg); }
+[data-mikoshi-theme="dark"] .network-label { fill: var(--fg); }
+[data-mikoshi-theme="dark"] .pill.amber { background: #493b23; color: #f0cb8d; }
+[data-mikoshi-theme="dark"] .pill.red { background: #492c2d; color: #f3aaa0; }
+[data-mikoshi-theme="dark"] .pill.green { background: #1d4038; color: #83d1b7; }
+
+@media (max-width: 760px) {
+  #app > .topbar { padding: 0 .875rem; height: auto; min-height: 2.75rem; gap: .5rem; flex-wrap: wrap; }
+  #app > .topbar .top-actions { gap: .5rem; }
+  #app > .main { padding: 1.25rem .875rem 2rem; }
+  .page-head { align-items: flex-start; }
+  .page-head h1 { font-size: 1.5rem; }
+  .page-head > .actions { width: 100%; flex-wrap: wrap; }
+  .btn, input, select { min-height: 2.75rem; }
+  .drawer { width: 100vw; max-width: 100vw; }
+  dialog.plan-dialog { max-width: calc(100vw - 1rem); }
+}
+@media (max-width: 430px) {
+  #app > .topbar .breadcrumb > span { display: none; }
+  #app > .topbar .save-state { max-width: 10rem; overflow-wrap: anywhere; }
+  .metric-grid, .metrics, .cols-2, .cols-3 { grid-template-columns: minmax(0,1fr) !important; }
+  .filters { flex-wrap: wrap; }
+  .filters > * { max-width: 100%; }
+}

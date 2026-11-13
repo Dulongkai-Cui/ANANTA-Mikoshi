@@ -1,0 +1,8 @@
+* -text
+# Preserve exact imported source bytes and recorded SHA256 on every platform.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.avif binary

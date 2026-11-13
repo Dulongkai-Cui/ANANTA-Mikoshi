@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>三方号本机资料保全</title><style>body{font:16px/1.65 system-ui,sans-serif;background:#f4f6fa;color:#172c40;margin:0;padding:36px}main{max-width:800px;margin:auto;background:#fff;border:1px solid #d8e0ea;border-radius:16px;padding:28px}button{background:#315bce;color:white;border:0;border-radius:8px;font:inherit;padding:10px 20px;cursor:pointer}button:disabled{background:#607083;cursor:wait}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#f4f6fa}#error{color:#a12222}</style></head>
+<body><main><h1>三方号本机资料保全</h1><p>导出当前浏览器、当前站点中所有演示身份的三方号管理资料与旧页面本机资料。不会读取登录、个人设置或其他业务，也不会修改或清除任何数据。</p><p id="summary" role="status">正在检查本机资料…</p><pre id="inventory"></pre><p id="error" role="alert"></p><button id="export" disabled>下载三方号本机备份</button> <button id="view" disabled>查看备份原文</button><pre id="payload" hidden></pre><p>备份可能含有人工填写的手机号和备注，请保存在项目本地归档中。</p></main>
+<script>
+'use strict';
+const matches = key => /^mikoshi:third-party:v1:/.test(key) || /^mikoshi\.legacy\.v1:[^:]+:thirdparty:/.test(key) || ['ananta-thirdparty-pivot-v1','mikoshi-thirdparty-library-layout-v1'].includes(key);
+function capture() {
+  const entries = [];
+  for (let i=0;i<localStorage.length;i++) {
+    const key=localStorage.key(i);
+    if (key && matches(key)) entries.push({key, raw:localStorage.getItem(key)});
+  }
+  entries.sort((a,b)=>a.key.localeCompare(b.key));
+  return {schema:1, kind:'mikoshi-third-party-browser-archive', origin:location.origin, capturedAt:new Date().toISOString(), entries};
+}
+try {
+  const initial=capture();
+  let accounts=0,schedules=0,invalid=0;
+  for (const item of initial.entries.filter(item=>item.key.startsWith('mikoshi:third-party:v1:'))) {
+    try { const parsed=JSON.parse(item.raw); accounts+=Array.isArray(parsed.accounts)?parsed.accounts.length:0; schedules+=Array.isArray(parsed.schedules)?parsed.schedules.length:0; } catch { invalid++; }
+  }
+  document.getElementById('summary').textContent=`当前站点 ${location.origin}：${initial.entries.length} 项三方号存储，人工账号 ${accounts} 条，排期 ${schedules} 条。`;
+  document.getElementById('inventory').textContent=initial.entries.map(item=>`${item.key} · ${item.raw?.length ?? 0} 字符`).join('\n') || '没有本机三方号资料。';
+  if(invalid) document.getElementById('error').textContent='部分资料无法解析，仍会原样保全。';
+  const view=document.getElementById('view');view.disabled=false;
+  view.addEventListener('click',()=>{try {const output=document.getElementById('payload');output.textContent=JSON.stringify(capture(),null,2);output.hidden=false;}catch{document.getElementById('error').textContent='读取失败，未生成备份。';}});
+  const button=document.getElementById('export'); button.disabled=false;
+  button.addEventListener('click',()=>{
+    try {
+      const payload=JSON.stringify(capture(),null,2), url=URL.createObjectURL(new Blob([payload],{type:'application/json'}));
+      const a=document.createElement('a'); a.href=url;a.download='mikoshi-third-party-browser-before-reset.json';a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),30000);
+      document.getElementById('summary').textContent='备份已生成并发起下载。本机原资料保持不变。';
+    } catch {document.getElementById('error').textContent='无法读取资料，尚未生成备份。请恢复浏览器存储权限后重试。';}
+  });
+} catch {document.getElementById('error').textContent='无法读取浏览器存储，尚未备份或修改任何资料。';}
+</script></body></html>

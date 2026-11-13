@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "ideaIds": [],
+  "matches": [],
+  "events": [],
+  "nodes": [
+    {
+      "id": "node-launch",
+      "title": "启宣",
+      "date": "2026-12-04",
+      "parentId": "",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-tga",
+      "title": "TGA 与内容接续",
+      "date": "2026-12-11",
+      "parentId": "",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-trial",
+      "title": "线下试玩",
+      "date": "2027-01-08",
+      "parentId": "",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-release",
+      "title": "公测上线",
+      "date": "2027-01-15",
+      "parentId": "",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-recruit",
+      "title": "试玩招募与单机玩法介绍",
+      "date": "2026-12-04",
+      "parentId": "node-launch",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-trailer",
+      "title": "重霄剧情预告",
+      "date": "2026-12-11",
+      "parentId": "node-tga",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-world",
+      "title": "世界宣传片",
+      "date": "2026-12-18",
+      "parentId": "node-tga",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-freedom",
+      "title": "都市交互片",
+      "date": "2026-12-25",
+      "parentId": "node-tga",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-coop",
+      "title": "朋友联机片",
+      "date": "2027-01-01",
+      "parentId": "node-tga",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-sh-demo",
+      "title": "上海场内试玩",
+      "date": "2027-01-08",
+      "parentId": "node-trial",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-preview-live",
+      "title": "前瞻直播",
+      "date": "2027-01-09",
+      "parentId": "node-trial",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-opening",
+      "title": "公测首发内容",
+      "date": "2027-01-15",
+      "parentId": "node-release",
+      "source": "项目总时间轴 · 传播计划"
+    },
+    {
+      "id": "node-gameplay",
+      "title": "任务实机《天生救世主》",
+      "date": "2027-01-18",
+      "parentId": "node-release",
+      "source": "项目总时间轴 · 传播计划"
+    }
+  ]
+}

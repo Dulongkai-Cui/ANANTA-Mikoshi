@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOL · MIKOSHI</title>
+<style>
+
+:root{--bg:#f5f7fa;--paper:#fff;--text:#182c40;--muted:#4e6278;--line:#e0e7ef;--blue:#315fc5;--blue-soft:#edf2fa;--zd-series:#6283b8;--zd-count:#a57630;--zd-track:#e6ecf4}
+*{box-sizing:border-box}
+body{margin:0;color:var(--text);font:.875rem/1.6 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+button,input,select{font:inherit;max-width:100%;border:1px solid #8794a3;border-radius:6px;background:var(--paper);color:var(--text);padding:7px 10px}
+button{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;white-space:normal}
+button:hover:not(:disabled){background:var(--blue-soft)}button:disabled{cursor:not-allowed;border-style:dashed}
+input[type=checkbox]{accent-color:var(--blue);width:1rem;height:1rem}input[type=date]{min-width:0;width:9.3rem}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+::selection{background:var(--blue-soft);color:var(--text)}
+.main{width:100%;min-width:0;margin:0 auto;padding:29px 34px 24px;max-width:1640px}
+#app>.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px}
+#app>.topbar h1{font-size:1.6875rem;line-height:1.4;margin:0 0 6px;font-weight:650}
+.eyebrow{font-size:.75rem;letter-spacing:.13em;font-weight:650;margin-bottom:5px}
+h2,h3,p{margin:0}h2{font-size:1rem;font-weight:650;line-height:1.5}h3{font-size:.875rem;line-height:1.5}p{font-size:.8125rem}
+.zd-sub,.zd-foot,.zd-note,.zd-caption{font-size:.75rem;color:var(--muted)}
+.zd-icon{display:inline-block;width:1rem;height:1rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.13em}
+.zd-actions,.zd-seg,.zd-inline,.zd-legend,.zd-checks{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.zd-actions{justify-content:flex-end}.zd-actions button,.zd-seg button{font-size:.75rem}
+.zd-badge{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:5px;padding:4px 8px;background:var(--blue-soft);font-size:.75rem}
+.zd-seg{gap:3px;padding:3px;background:var(--blue-soft);border-radius:7px}.zd-seg button{border-color:transparent;background:transparent}
+#app button[aria-pressed=true]{background:#315fb6!important;color:white!important;border-color:#315fb6!important}
+#app button[aria-pressed=true] .zd-icon{color:inherit!important}
+#app button:disabled{border-style:dashed!important;background:transparent!important;color:var(--muted)!important}
+.zd-filters{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:14px 16px;margin-bottom:18px}
+.zd-filter-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0;font-size:.75rem}
+.zd-filter-group label{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.zd-filter-group select{font-size:.75rem;min-width:6.5rem}
+.zd-filter-summary{flex:1 1 100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px;font-size:.75rem}
+.zd-error{font-size:.8125rem;color:var(--text);padding:10px 14px;border:1px solid var(--blue);border-radius:6px;margin-bottom:14px}
+.zd-grid{display:grid;gap:16px;min-width:0;margin-top:16px}.zd-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.zd-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.zd-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.card{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
+.zd-stat{padding:17px 19px}.zd-stat-label{display:flex;align-items:center;gap:7px;font-size:.8125rem}
+.zd-stat strong{display:block;font:600 1.875rem/1.3 Bahnschrift,"Aptos","Segoe UI",sans-serif;font-variant-numeric:tabular-nums;margin:13px 0 6px}
+.zd-cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:19px 20px 12px}
+.zd-cardhead p{margin-top:4px}.zd-cardbody{padding:6px 20px 20px;min-width:0}
+.zd-cardfoot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding:10px 20px;font-size:.75rem}
+.zd-insight{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;border:1px solid var(--line);border-radius:8px;background:var(--blue-soft);margin-bottom:18px;font-size:.8125rem}
+.zd-insight>.zd-icon{margin-top:3px}.zd-insight p{flex:1}
+.zd-legend{gap:12px;margin:6px 0 12px;font-size:.75rem}.zd-legend button{font-size:inherit;border:1px solid transparent;background:transparent;padding:3px 5px}
+.zd-dot{width:.55rem;height:.55rem;border-radius:2px;display:inline-block;flex:none;background:var(--zd-series)}
+.zd-dot.line{height:2px;width:.85rem}.zd-legend .zd-off{border:1px dashed var(--muted);background:transparent!important}
+.zd-chart-scroll{width:100%;max-width:100%;overflow:auto;overscroll-behavior-x:contain}
+.zd-chart-scroll:focus-visible,.tablewrap:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.zd-chart{display:block;width:100%;min-width:53.125rem;aspect-ratio:850/260}
+.zd-chart text{fill:var(--muted)}.zd-chart .zd-axis{stroke:var(--line);stroke-dasharray:4 5;stroke-width:1}
+.zd-chart .zd-baseline{stroke:var(--zd-series);stroke-width:2;fill:none}.zd-chart .zd-countline{stroke:var(--zd-count);stroke-dasharray:7 5;stroke-width:2;fill:none}
+.zd-chart-note{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:.75rem}
+.zd-donut-row{display:grid;grid-template-columns:minmax(9rem,.85fr) minmax(9rem,1fr);align-items:center;gap:20px}
+.zd-donut{position:relative;width:10rem;height:10rem;max-width:100%;margin:8px auto}
+.zd-donut svg{width:100%;height:100%;display:block}.zd-donut circle{fill:none;stroke:var(--zd-track);stroke-width:17}
+.zd-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none}
+.zd-donut-center strong{font-size:1.65rem;font-variant-numeric:tabular-nums}.zd-donut-center span{font-size:.75rem}
+.zd-legend-list{display:grid;gap:11px;min-width:0}.zd-legend-row{display:flex;align-items:center;gap:8px;font-size:.8125rem}.zd-legend-row .name{flex:1}.zd-legend-row small{width:3.5rem;text-align:right;font-size:.75rem}
+.zd-track{height:6px;border-radius:4px;background:var(--zd-track);min-width:24px}.zd-track i{display:block;height:100%;width:0}
+.zd-bar-row{display:grid;grid-template-columns:minmax(5rem,1fr) minmax(3rem,2fr) 3rem;align-items:center;gap:12px;margin:16px 0;font-size:.8125rem}.zd-bar-row strong{text-align:right;font-variant-numeric:tabular-nums}
+.zd-rank-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.zd-rank-row:last-child{border:0}.zd-rank-index{font-size:.75rem;width:1.4rem}
+.zd-avatar{width:2.5rem;height:2.5rem;flex:none;border:1px dashed var(--muted);border-radius:50%;display:grid;place-items:center;background:var(--blue-soft)}
+.zd-avatar .zd-icon{width:1.2rem;height:1.2rem}.zd-rank-body{flex:1;min-width:0}.zd-rank-top{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:.8125rem}
+.tablewrap{width:100%;max-width:100%;overflow:auto;overscroll-behavior-x:contain}.zd-table{border-collapse:collapse;width:100%;min-width:40rem;font-size:.8125rem}
+.zd-table th,.zd-table td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.zd-table th{font-size:.75rem;font-weight:500;background:var(--blue-soft);white-space:nowrap}.zd-table .num{text-align:right;font-variant-numeric:tabular-nums}
+.zd-table tfoot{background:var(--blue-soft)}.zd-table tfoot td{font-weight:600}.zd-table tr:last-child td{border-bottom:0}
+.zd-table .zd-empty-cell{text-align:center;padding:26px 16px}.zd-table .zd-cell-note{display:block;font-size:.75rem;margin-top:3px;color:var(--muted)}
+.zd-matrix{min-width:26rem}.zd-matrix td:not(:first-child){min-width:6rem;text-align:center}.zd-matrix strong{display:block;font-size:1rem}.zd-matrix small{font-size:.75rem}
+.zd-caption{padding:10px 0 0}.zd-section-title{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:24px 0 12px}
+.zd-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.zd-toolbar label{font-size:.75rem;display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}.zd-toolbar .zd-spacer{flex:1}
+.zd-search{display:flex;gap:7px;flex-wrap:wrap}.zd-search input{width:15rem;min-width:0}
+.zd-checks{padding:12px 0;border-top:1px solid var(--line);margin-top:4px;gap:8px 16px;font-size:.75rem}.zd-checks label{display:inline-flex;align-items:center;gap:6px}
+.zd-account-grid,.zd-work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.zd-account-placeholder,.zd-work-placeholder{border-style:dashed}
+.zd-account-placeholder{padding:18px}.zd-placeholder-top{display:flex;align-items:center;gap:12px}.zd-placeholder-top h3{margin-bottom:3px}
+.zd-field-line{display:flex;justify-content:space-between;gap:12px;font-size:.75rem;margin-top:10px}
+.zd-account-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+.zd-account-metrics strong{display:block;font-size:1.1rem;font-variant-numeric:tabular-nums}.zd-account-metrics span{font-size:.75rem}
+.zd-placeholder-footer{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:16px;font-size:.75rem}
+.zd-cover{aspect-ratio:16/8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--blue-soft);border-bottom:1px dashed var(--muted);font-size:.75rem}
+.zd-cover .zd-icon{width:1.5rem;height:1.5rem}.zd-work-body{padding:16px}.zd-work-body h3{margin-bottom:10px}
+.zd-pagination{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px;font-size:.75rem}.zd-pagination span{margin-right:auto}
+.zd-mini-cover{width:4rem;height:2.5rem;flex:none;display:grid;place-items:center;background:var(--blue-soft);border:1px dashed var(--muted);border-radius:4px}.zd-placeholder-row td{height:78px}
+.zd-compare-group{padding:10px 0 18px}.zd-compare-group:last-child{padding-bottom:0}.zd-compare-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.8125rem;margin:10px 0 7px}
+.zd-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:12px;padding:10px 0 20px}
+.zd-flow-box{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--blue-soft);min-width:0}.zd-flow-box span{display:block;font-size:.75rem}.zd-flow-box strong{display:block;font-size:1.5rem;margin-top:6px}
+.zd-rate-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.zd-rate-grid span{display:block;font-size:.75rem}.zd-rate-grid strong{display:block;font-size:1.2rem;margin-top:6px}
+.zd-audit-list{display:grid;gap:16px}.zd-audit-item{display:flex;align-items:flex-start;gap:10px}.zd-audit-item>.zd-icon{margin-top:3px}.zd-audit-item h3{margin-bottom:4px}
+.zd-placeholder-track{height:22px;border-radius:5px;background:var(--zd-track);margin:18px 0}
+.zd-footer{font-size:.75rem;border-top:1px solid var(--line);padding-top:14px;margin-top:22px}
+#app .zd-pivot-expanded .zd-table{min-width:70rem}
+html[data-theme=dark]{--zd-series:#91b6ff;--zd-count:#ecc887;--zd-track:#2b405a}
+html[data-theme=dark] #app :is(button,input,select){border-color:#7187a0}#app :is(button,input,select){caret-color:var(--blue)}
+@media(min-width:1500px){.zd-metrics{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:1000px){.zd-account-grid,.zd-work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zd-donut-row{grid-template-columns:1fr}.zd-rate-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.zd-grid.two,.zd-grid.three{grid-template-columns:minmax(0,1fr)}.zd-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.zd-account-grid,.zd-work-grid{grid-template-columns:minmax(0,1fr)}#app>.topbar{align-items:flex-start}.zd-actions{justify-content:flex-start}.zd-cardhead{padding:16px 14px 10px}.zd-cardbody{padding:6px 14px 16px}.zd-cardfoot{padding:10px 14px}.zd-flow{grid-template-columns:1fr}.zd-flow>.zd-icon{transform:rotate(90deg);justify-self:center}.zd-rate-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zd-filters{padding:12px}.zd-search input{width:100%}}
+@media(max-width:420px){.zd-metrics{grid-template-columns:minmax(0,1fr)}.zd-toolbar{align-items:stretch}.zd-toolbar>label,.zd-toolbar>.zd-search{width:100%}.zd-toolbar select{max-width:100%}.zd-actions{width:100%}.zd-stat{padding:16px}.zd-donut-row{grid-template-columns:1fr}.zd-filter-group input[type=date]{width:8rem}.zd-pagination{justify-content:flex-start}.zd-rate-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px),(pointer:coarse){#app :is(button,select,input:not([type=checkbox])){min-height:44px}#app .zd-checks label{min-height:44px}}
+
+.main{padding:0}.content{padding:29px 34px 24px;min-width:0}
+.zd-metrics{grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr))}
+.zd-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.zd-step{padding:8px 0;min-width:0}.zd-step strong{display:block;margin:8px 0}
+.zd-pivot-plain .zd-table tfoot{background:var(--paper)}
+@media(max-width:1000px){.zd-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.zd-steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main class="main"><div class="content" id="app"></div></main>
+<script>
+"use strict";
+/* Empty analytical presentation. Management records and historical snapshots stay separate. */
+const PAGES={
+ home:["发布效果总览","一眼看清发布表现、合作效率与用户反馈。"],
+ overview:["全局透视","从发布时间、合作达人和层级，组合查看发布表现。"],
+ creators:["达人与视频","查看发布达人与视频作品，切换卡片或横向明细。"],
+ content:["内容与卖点","把主卖点、证据与内容表现放在一起。"],
+ sentiment:["评论与舆情","从原文、讨论对象与判断依据，理解反馈。"],
+ compare:["对比与复盘","在相同口径下比较合作、节点与内容。"],
+ quality:["数据与口径","核对数据来源、覆盖范围和指标计算方式。"]
+};
+const FORMATS=["试玩评测","资讯盘点","解读对比","PV反应","二创整活","展会访谈"];
+const TOPICS=["角色与塑造","美术与视听","玩法与探索","世界与场景","产品获取机制"];
+const TIERS={all:"全部层级",head:"头部 · ≥100万粉",waist:"腰部 · 20万至不足100万粉",tail:"长尾 · 不足20万粉",unknown:"层级待确认"};
+const DIMS={date:"发布日期",week:"发布周",creator:"UP 主",tier:"达人层级"};
+const METRICS={view:"累计播放",count:"作品数",creators:"发布 UP 数",interactions:"累计互动",rate:"互动率",reply:"评论计数",like:"点赞",coin:"投币",favorite:"收藏",danmaku:"弹幕",share:"分享",median:"播放中位数"};
+const COLORS=["#7193c5","#68a99b","#b8a0c8","#d5b17a","#9bb2cc","#ababbc"];
+const ICONS={
+ filter:'<path d="M4 5h16l-6 7v6l-4 2v-8z"/>',chart:'<path d="M4 4v16h16M8 15v-4m4 4V7m4 8v-6"/>',video:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/>',
+ users:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
+ coins:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 4 16 4 16 0V6M4 12v6c0 4 16 4 16 0v-6"/>',rate:'<path d="m6 18 12-12"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>',
+ heart:'<path d="M20.8 5.6a5.5 5.5 0 0 0-8 .3L12 7l-.8-1.1a5.5 5.5 0 0 0-8-.3C-1 10 6 16.5 12 21c6-4.5 13-11 8.8-15.4z"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>',download:'<path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/>',reset:'<path d="M3 10a9 9 0 1 1 2 9M3 4v6h6"/>',search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',table:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>',
+ calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18"/>',arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',document:'<path d="M14 3H5v18h14V8zM14 3v5h5M8 12h8m-8 4h6"/>',
+ link:'<path d="m9 15 6-6m-7 9-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 6a4 4 0 0 0 6 0l4-4a4 4 0 0 0-6-6l-1 1"/>'
+};
+function esc(value){return String(value??"").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function icon(name){return '<svg class="zd-icon" viewBox="0 0 24 24" aria-hidden="true">'+(ICONS[name]||ICONS.document)+'</svg>';}
+function monthRange(){
+ const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Shanghai",year:"numeric",month:"2-digit"}).formatToParts(new Date());
+ const year=Number(parts.find(function(p){return p.type==="year";}).value),month=Number(parts.find(function(p){return p.type==="month";}).value);
+ const prefix=year+"-"+String(month).padStart(2,"0")+"-";
+ return {start:prefix+"01",end:prefix+new Date(Date.UTC(year,month,0)).getUTCDate()};
+}
+function button(text,action,value,pressed,symbol,extra){return '<button type="button" data-action="'+esc(action)+'" data-value="'+esc(value||"")+'"'+(typeof pressed==="boolean"?' aria-pressed="'+pressed+'"':"")+(extra||"")+'>'+(symbol?icon(symbol):"")+text+'</button>';}
+function disabled(text,explanation,symbol){return '<button type="button" disabled title="'+esc(explanation)+'" aria-label="'+esc(text+"，"+explanation)+'">'+(symbol?icon(symbol):"")+esc(text)+'</button>';}
+function select(label,key,values,selected){return '<label>'+esc(label)+'<select aria-label="'+esc(label)+'" data-control="'+key+'">'+Object.entries(values).map(function(entry){return '<option value="'+esc(entry[0])+'"'+(entry[0]===selected?" selected":"")+'>'+esc(entry[1])+'</option>';}).join("")+'</select></label>';}
+function seg(items,action,current,label){return '<div class="zd-seg" role="group" aria-label="'+esc(label)+'">'+items.map(function(item){return button(esc(item[1]),action,item[0],current===item[0]);}).join("")+'</div>';}
+function card(title,subtitle,body,tools,foot){return '<section class="card"><div class="zd-cardhead"><div><h2>'+esc(title)+'</h2><p>'+esc(subtitle)+'</p></div>'+(tools||"")+'</div><div class="zd-cardbody">'+body+'</div>'+(foot?'<div class="zd-cardfoot">'+foot+'</div>':"")+'</section>';}
+function stat(label,value,note,symbol){return '<section class="card zd-stat"><div class="zd-stat-label">'+icon(symbol)+esc(label)+'</div><strong>'+value+'</strong><div class="zd-note">'+esc(note)+'</div></section>';}
+function metrics(items){return '<div class="zd-metrics">'+items.map(function(item){return stat.apply(null,item);}).join("")+'</div>';}
+function notice(text){return '<div class="zd-insight">'+icon("info")+'<p>'+esc(text)+'</p></div>';}
+function table(headers,rows,footer,className,groupLabel){
+ const head=groupLabel?'<tr><th scope="col" rowspan="2">'+esc(headers[0])+'</th><th scope="colgroup" colspan="'+(headers.length-1)+'">'+esc(groupLabel)+'</th></tr><tr>'+headers.slice(1).map(function(header){return '<th scope="col">'+esc(header)+'</th>';}).join("")+'</tr>':'<tr>'+headers.map(function(header){return '<th scope="col">'+esc(header)+'</th>';}).join("")+'</tr>';
+ return '<div class="tablewrap" tabindex="0" role="region" aria-label="数据明细，可横向滚动"><table class="zd-table '+(className||"")+'"><thead>'+head+'</thead><tbody>'+rows+'</tbody>'+(footer?'<tfoot>'+footer+'</tfoot>':"")+'</table></div>';
+}
+function emptyRow(columns,message){return '<tr><td class="zd-empty-cell" colspan="'+columns+'">'+esc(message)+'</td></tr>';}
+function simpleEmptyTable(headers,message){return table(headers,emptyRow(headers.length,message))+'<p class="zd-caption">'+esc(message)+' · 共 0 条记录</p>';}
+function rangeText(){return state.filters.start+" — "+state.filters.end;}
+function ticks(){
+ const day=86400000,start=Date.parse(state.filters.start+"T00:00:00Z"),end=Date.parse(state.filters.end+"T00:00:00Z");
+ if(state.trend==="week"){
+  const boundaries=[start],weekday=new Date(start).getUTCDay(),untilMonday=(8-weekday)%7||7;
+  for(let time=start+untilMonday*day;time<=end;time+=7*day)boundaries.push(time);
+  const step=Math.max(1,Math.ceil(boundaries.length/7));
+  return boundaries.filter(function(_,i){return i%step===0||i===boundaries.length-1;}).map(function(time,index){return new Date(time).toISOString().slice(5,10)+(index===0&&weekday!==1?"起":"周");});
+ }
+ return Array.from({length:7},function(_,i){return new Date(start+Math.round((end-start)*i/6/day)*day).toISOString().slice(5,10);}).filter(function(v,i,a){return a.indexOf(v)===i;});
+}
+function donut(labels,centerLabel){
+ return '<div class="zd-donut-row" data-zero-chart="donut"><div class="zd-donut"><svg viewBox="0 0 190 190" role="img" aria-label="'+esc(centerLabel+"为空，中性底环，无占比")+'"><title>'+esc(centerLabel+"为0，没有数据份额")+'</title><circle cx="95" cy="95" r="64"/></svg><div class="zd-donut-center"><strong>0</strong><span>'+esc(centerLabel)+'</span></div></div><div class="zd-legend-list">'+labels.map(function(label,i){return '<div class="zd-legend-row"><i class="zd-dot" style="background:'+COLORS[i%COLORS.length]+'" aria-hidden="true"></i><span class="name">'+esc(label)+'</span><strong>0</strong><small>占比 —</small></div>';}).join("")+'</div></div><p class="zd-caption">当前记录 0 条；没有可计算的份额。</p>';
+}
+function zeroBars(labels,unit){return '<div data-zero-chart="bars">'+labels.map(function(label){return '<div class="zd-bar-row"><span>'+esc(label)+'</span><div class="zd-track" aria-hidden="true"><i></i></div><strong>'+(unit==="money"?"¥0":"0")+'</strong></div>';}).join("")+'</div><p class="zd-caption">当前记录 0 条；轨道仅表示指标位置。</p>';}
+function audit(items){return '<div class="zd-audit-list">'+items.map(function(item){return '<div class="zd-audit-item">'+icon("document")+'<div><h3>'+item[0]+'</h3><p>'+item[1]+'</p></div></div>';}).join("")+'</div>';}
+function validDate(value){return /^\d{4}-\d{2}-\d{2}$/.test(value)&&value.slice(0,4)>="2000"&&value.slice(0,4)<="2100"&&Number.isFinite(Date.parse(value+"T00:00:00Z"))&&new Date(value+"T00:00:00Z").toISOString().slice(0,10)===value;}
+const initialRange=monthRange();
+function defaultFilters(){return {...initialRange,tier:"all",format:"all"};}
+function defaultPivot(){return {row:"date",col:"metrics",style:"heat",metrics:["view","count","rate","creators"],chart:true};}
+const state={page:Object.hasOwn(PAGES,location.hash.slice(1))?location.hash.slice(1):"home",filters:defaultFilters(),error:"",trend:"date",showView:true,showCount:true,showReservations:false,legend:Object.fromEntries(FORMATS.map(f=>[f,true])),platform:"all",cost:"all",cpm:"base",audience:"tier",audienceMetric:"view",libraryMode:"videos",layouts:{videos:"cards",creators:"table"},query:"",sort:"view",direction:"desc",pivot:defaultPivot(),expanded:false,contentQuery:"",commentQuery:"",commentTarget:"all",commentStance:"all",compareMetric:"view"};
+function filterBar(){
+ const f=state.filters;
+ return '<section class="zd-filters" aria-label="全局筛选"><div class="zd-filter-group">'+icon("filter")+'<span>发布日期</span>'+button("本月","period","month",f.start===initialRange.start&&f.end===initialRange.end)+'</div><div class="zd-filter-group"><label>开始<input type="date" aria-label="开始日期" data-control="start" value="'+esc(f.start)+'"></label><span>—</span><label>结束<input type="date" aria-label="结束日期" data-control="end" value="'+esc(f.end)+'"></label></div><div class="zd-filter-group">'+select("达人层级","tier",TIERS,f.tier)+'</div><div class="zd-filter-group">'+select("视频类型","format",{all:"全部类型",...Object.fromEntries(FORMATS.map(v=>[v,v]))},f.format)+'</div>'+disabled("UP 主 · 全部","当前没有发布达人可选择","users")+button("重置筛选","reset","",undefined,"reset")+'<div class="zd-filter-summary" role="status"><span>当前范围：'+esc(rangeText())+' · '+esc(TIERS[f.tier])+' · '+esc(f.format==="all"?"全部类型":f.format)+'</span><strong>0 条作品 · 0 位发布达人</strong></div></section>';
+}
+function legend(labels,interactive){return '<div class="zd-legend" aria-label="图例">'+labels.map((t,i)=>{const dot='<i class="zd-dot'+(interactive&&!state.legend[t]?' zd-off':'')+'" style="background:'+COLORS[i%COLORS.length]+'" aria-hidden="true"></i>';return interactive?button(dot+esc(t),"legend",t,state.legend[t],null,' aria-label="'+esc(t+"图例")+'"'):'<span class="zd-inline">'+dot+esc(t)+'</span>';}).join("")+'</div>';}
+function zeroChart(kind){
+ const trend=kind!=="distribution",labels=trend?ticks():["0","不足1万","1–10万","10–50万","50–100万","≥100万"],title=trend?"发布与表现：当前0条作品":"作品播放分布：当前0条作品";
+ let svg='<svg class="zd-chart" viewBox="0 0 850 260" role="img" aria-label="'+title+'" data-zero-chart="'+kind+'"><title>'+title+'</title><text x="54" y="18">'+(trend?"累计播放 / 次":"作品 / 条")+'</text>'+(trend?'<text x="800" y="18" text-anchor="end">发布数 / 条</text>':'');
+ for(let i=0;i<5;i++){const y=212-i*43;svg+='<line class="zd-axis" x1="54" x2="796" y1="'+y+'" y2="'+y+'"/><text x="42" y="'+(y+4)+'" text-anchor="end">'+i+'</text>'+(trend?'<text x="807" y="'+(y+4)+'">'+i+'</text>':'');}
+ labels.forEach((v,i)=>{const x=labels.length===1?425:54+i*742/(labels.length-1);svg+='<text x="'+x+'" y="244" text-anchor="'+(i===0?"start":i===labels.length-1?"end":"middle")+'">'+esc(v)+'</text>';});
+ if(!trend||state.showView)svg+='<path class="zd-baseline" d="M54 212H796" data-series="view"/>';
+ if(trend&&state.showCount)svg+='<path class="zd-countline" d="M54 212H796" data-series="count"/>';
+ svg+='<text x="425" y="110" text-anchor="middle">当前范围 0 条作品</text><text x="425" y="135" text-anchor="middle">'+(trend?"尚无发布记录，暂无非零走势":"各播放区间的作品数量均为 0")+'</text></svg>';
+ svg=svg.replaceAll('<text ','<text font-size="12" ');
+ return '<div class="zd-chart-scroll" tabindex="0" role="region" aria-label="'+(trend?"发布表现图":"播放分布图")+'，可横向滚动">'+svg+'</div><div class="zd-chart-note"><span>累计播放 0 次 · 发布数量 0 条</span><span>空态标尺 0–4，仅用于展示；没有真实数据点</span></div>'+(trend?'<p class="zd-caption">'+(state.trend==="week"?"按周查看（周一为边界）":"按日查看")+' · 显示类型：'+esc(FORMATS.filter(f=>state.legend[f]).join("、")||"全部隐藏")+(state.showReservations?' · 预约数据未接入，不绘制曲线':'')+'</p>':'');
+}
+function rank(){return Array.from({length:3},()=>'<div class="zd-rank-row" data-placeholder="rank"><div class="zd-mini-cover">'+icon("video")+'</div><div class="zd-rank-body"><div class="zd-rank-top"><strong>作品待发布</strong><strong>—</strong></div><p class="zd-note">发布达人 / BV · — · 尚无排名</p></div></div>').join("")+'<p class="zd-caption">当前 0 条作品；字段占位不参与排名。</p>';}
+function audience(){
+ const labels=state.audience==="tier"?["头部","腰部","长尾","层级待确认"]:["核心游戏","泛游戏","泛兴趣","方向待核验"];
+ return '<div class="zd-toolbar">'+seg([["tier","达人层级"],["direction","人群方向"]],"audience",state.audience,"人群维度")+seg([["view","播放"],["fans","粉丝"],["cost","费用"]],"audience-metric",state.audienceMetric,"人群指标")+'</div>'+zeroBars(labels,state.audienceMetric==="cost"?"money":null)+table([state.audience==="tier"?"达人层级":"人群方向","达人","费用 / 占比","粉丝 / 占比","播放 / 占比"],labels.map(label=>'<tr><td>'+esc(label)+'</td><td>0</td><td>¥0 / —</td><td>0 / —</td><td>0 / —</td></tr>').join(""),'<tr><td>当前范围合计</td><td>0</td><td>¥0</td><td>0</td><td>0</td></tr>')+'<p class="zd-caption">分类为分析维度，不代表已有达人；粉丝跨达人不去重，人群方向需有核验依据。</p>';
+}
+function homePage(){
+ const platform={all:"B站 + 抖音",bili:"B站",douyin:"抖音"}[state.platform],cost=state.cost==="all"?"合作 + 起飞":"合作费用",cpm={base:"完整匹配合作费用",all:"合作 + 起飞费用",net:"扣除已记录起飞播放"}[state.cpm];
+ return metrics([["发布数量","0","B站去重作品 · 抖音另有 0 条","document"],["累计播放","0",platform+" · 当前 0 条作品","video"],["CPM","—",cpm+" · 暂无匹配分母","rate"],["费用消耗","¥0",cost+" · 0 条费用录入","coins"],["整体互动率","—","六项互动合计 ÷ 对应播放","heart"]])+
+ notice("分析区当前没有已发布作品或效果快照。KOL入库、合作进度与发布计划是管理资料，保存后不会生成播放、费用或舆情结果。")+
+ '<div class="zd-toolbar">'+seg([["all","合计"],["bili","B站"],["douyin","抖音"]],"platform",state.platform,"播放平台")+seg([["base","合作 CPM"],["all","含起飞 CPM"],["net","扣起飞量"]],"cpm",state.cpm,"CPM口径")+seg([["base","合作费用"],["all","含起飞费用"]],"cost",state.cost,"费用口径")+'</div>'+
+ card("发布与表现","按作品发布日期聚合；播放为累计值，不是每日新增",legend(FORMATS,true)+zeroChart("trend"),'<div class="zd-inline">'+seg([["date","按日"],["week","按周"]],"trend",state.trend,"时间粒度")+button("累计播放","series","view",state.showView)+button("发稿数量","series","count",state.showCount)+button("预约新增","series","reservation",state.showReservations)+'</div>','<span>实线：累计播放 · 虚线：发稿数量 · 预约未接入</span><span>'+esc(rangeText())+' · 上海时间</span>')+
+ '<div class="zd-grid two">'+card("费用分配与人群方向","看达人层级、粉丝、播放与合作费用",audience())+card("视频类型构成","同一批作品的类型分布",donut(state.filters.format==="all"?FORMATS:[state.filters.format],"发布作品"))+'</div>'+
+ '<div class="zd-grid two">'+card("热门作品","保留作品封面、达人与表现字段",rank(),button("全部视频","nav","creators",undefined,"video"))+card("费用消耗细则","合作与起飞分别核算，不代表结算凭证",zeroBars(["含税合作费用","起飞费用"],"money")+table(["口径","费用录入","对应播放","CPM"],'<tr><td>完整匹配合作</td><td>0</td><td>0</td><td>—</td></tr><tr><td>合作 + 起飞</td><td>0</td><td>0</td><td>—</td></tr>')+'<p class="zd-caption">预约归因尚未接入，不计算广告预约成本或转化回报。</p>')+'</div>'+
+ '<div class="zd-grid two">'+card("作品播放分布","按累计播放区间查看合作作品",zeroChart("distribution"))+card("互动构成","点赞、投币、收藏、评论、弹幕与分享",donut(["点赞","投币","收藏","评论","弹幕","分享"],"互动总量"))+'</div>'+
+ '<div class="zd-grid two">'+card("节点与竞品对照","同口径数据齐备后再比较",paired("累计播放","节点 A","节点 B"),button("进入复盘","nav","compare"))+card("评论内容方向","只有明确产品讨论进入判断比例",donut(["正向","中性","负向"],"已判读评论"),button("查看证据库","nav","sentiment"))+'</div>';
+}
+function metricZero(m){return m==="rate"||m==="median"?"—":"0";}
+function overviewPage(){
+ const p=state.pivot,headers=[DIMS[p.row],...p.metrics.map(m=>METRICS[m])];
+ return metrics([["当前累计播放","0","0 条作品","video"],["已发布作品","0","暂无作品进入统计","document"],["整体互动率","—","暂无匹配的播放分母","heart"],["参与发布 UP 主","0","按稳定账号标识去重","users"]])+
+ '<section class="card zd-pivot-'+p.style+(state.expanded?' zd-pivot-expanded':'')+'"><div class="zd-cardhead"><div><h2>全局透视工作台</h2><p>组合发布时间、达人与指标，保留完整表头与总计</p></div><div class="zd-actions">'+disabled("保存搭配","当前搭配仅在本次浏览中保留")+disabled("导出透视","当前没有发布记录","download")+button(state.expanded?"还原窗口":"放大工作区","expand","",state.expanded)+'</div></div><div class="zd-cardbody"><div class="zd-toolbar">'+
+ select("透视行维度","pivot-row",DIMS,p.row)+select("透视列维度","pivot-col",{metrics:"指标并列",...DIMS},p.col)+seg([["heat","热力"],["bar","条形"],["plain","数值"]],"pivot-style",p.style,"单元格样式")+button(p.chart?"收起组合图":"展开组合图","pivot-chart","",p.chart)+button("默认搭配","reset-pivot","")+'</div>'+
+ '<div class="zd-checks" role="group" aria-label="透视指标">'+Object.entries(METRICS).map(([m,label])=>'<label><input type="checkbox" data-control="pivot-metric" value="'+m+'"'+(p.metrics.includes(m)?' checked':'')+'>'+label+'</label>').join("")+'</div>'+(p.chart?zeroChart("pivot"):'')+
+ '<p class="zd-caption" role="status">纵向：'+DIMS[p.row]+' · 横向：'+(p.col==="metrics"?"指标并列":DIMS[p.col])+' · '+({heat:"热力",bar:"条形",plain:"数值"}[p.style])+'视图 · 当前 0 行</p>'+
+ table(headers,'<tr><td colspan="'+headers.length+'" class="zd-empty-cell">分组字段已就绪，等待首条发布记录</td></tr>','<tr><td>总计 · 0 条</td>'+p.metrics.map(m=>'<td class="num">'+metricZero(m)+'</td>').join("")+'</tr>',"",p.col==="metrics"?null:DIMS[p.col]+" · 待分组")+
+ '<p class="zd-caption">0 个分组 · 无真实数值时不绘制热力色块或比例条。</p></div><div class="zd-cardfoot"><span>布局仅在本次浏览中保留</span><span>中位数与互动率无样本时显示 —</span></div></section>';
+}
+function placeholder(kind){
+ const creator=kind==="creator",fields=creator?["当前粉丝","发布作品","累计播放"]:["累计播放","累计互动","互动率"];
+ return '<article class="card '+(creator?'zd-account-placeholder':'zd-work-placeholder')+'" data-placeholder="'+kind+'">'+(creator?'':'<div class="zd-cover">'+icon("video")+'<span>视频封面位置</span></div>')+'<div class="'+(creator?"":"zd-work-body")+'"><div class="zd-placeholder-top">'+(creator?'<div class="zd-avatar">'+icon("user")+'</div>':'')+'<div><h3>'+(creator?"达人待发布":"视频待发布")+'</h3><p class="zd-note">'+(creator?"UID":"发布达人 / BV")+' · —</p></div></div><div class="zd-field-line"><span>'+(creator?"达人层级 / 内容方向":"发布日期 / 视频类型")+'</span><span>—</span></div><div class="zd-account-metrics">'+fields.map(f=>'<div><strong>—</strong><span>'+f+'</span></div>').join("")+'</div><div class="zd-placeholder-footer"><span>字段占位，不计入记录</span>'+disabled("查看详情",creator?"尚无发布达人":"尚无发布作品")+'</div></div></article>';
+}
+function placeholderTable(creator){
+ const heads=creator?["合作达人 / UID","达人层级","粉丝量","发布作品","累计播放","互动率","操作"]:["视频 / 发布达人","发布日期","视频类型","累计播放","累计互动","互动率","操作"];
+ return table(heads,Array.from({length:3},()=>'<tr class="zd-placeholder-row" data-placeholder="'+(creator?"creator":"video")+'"><td><div class="zd-inline"><div class="'+(creator?"zd-avatar":"zd-mini-cover")+'">'+icon(creator?"user":"video")+'</div><div>'+(creator?"达人待发布":"视频待发布")+'<span class="zd-cell-note">'+(creator?"UID":"发布达人 / BV")+' · —</span></div></div></td>'+heads.slice(1,-1).map(()=>'<td>—</td>').join("")+'<td>'+disabled("查看详情","尚无发布样本")+'</td></tr>').join(""))+'<p class="zd-caption">当前真实记录 0 条；以上仅为字段位置。</p>';
+}
+function searchControl(id,label,value,action){return '<div class="zd-search" role="search" aria-label="'+esc(label)+'"><input id="'+id+'" aria-label="'+esc(label)+'" placeholder="'+esc(label)+'" value="'+esc(value)+'">'+button("搜索",action,"",undefined,"search")+(value?button("清除搜索","clear-search",id):'')+'</div>';}
+function creatorsPage(){
+ const creator=state.libraryMode==="creators",layout=state.layouts[state.libraryMode],sorts=creator?{view:"累计播放",count:"作品数",fans:"粉丝量",rate:"互动率"}:{view:"累计播放",date:"发布日期",reply:"评论计数",rate:"互动率"};
+ return '<div class="zd-toolbar">'+seg([["videos","视频作品 · 0"],["creators","合作达人 · 0"]],"library-mode",state.libraryMode,"查看对象")+'<span class="zd-spacer"></span><div class="zd-seg" role="group" aria-label="'+(creator?"达人":"视频")+'布局">'+button("卡片","layout","cards",layout==="cards","grid")+button("横向明细","layout","table",layout==="table","table")+'</div></div><div class="zd-toolbar">'+searchControl("library-search","搜索达人、标题或 BV 号",state.query,"search-library")+select("排序方式","sort",sorts,state.sort)+seg([["desc","从高到低"],["asc","从低到高"]],"direction",state.direction,"排序方向")+'</div>'+
+ (state.query?notice('搜索“'+state.query+'”：当前 0 条匹配记录，保留字段位置。'):'')+
+ (layout==="cards"?'<div class="'+(creator?"zd-account-grid":"zd-work-grid")+'">'+Array.from({length:3},()=>placeholder(creator?"creator":"video")).join("")+'</div>':card(creator?"合作达人明细":"视频作品明细","当前为已发布效果区，未生成业务记录",placeholderTable(creator)))+
+ '<div class="zd-pagination"><span role="status">共 0 条记录 · '+(sorts[state.sort]||"累计播放")+' · '+(state.direction==="desc"?"从高到低":"从低到高")+'</span>'+disabled("上一页","没有记录可翻页")+disabled("下一页","没有记录可翻页")+'</div>'+
+ '<p class="zd-footer">从侧栏“KOL入库”维护候选与合作账号，从“合作进度”推进事项，从“发布计划”安排内容。本页仅展示发布效果样本，管理资料不会自动变成已发布作品。</p>';
+}
+function contentPage(){return metrics([["当前作品","0","沿用全局日期与达人筛选","video"],["已标注作品","0","当前覆盖 0 / 0","document"],["待标注作品","0","尚无发布作品","document"],["已标注作品播放","0","只统计具有有效主卖点的作品","chart"]])+
+ '<div class="zd-grid two">'+card("内容方向分布","每条作品仅设一个主卖点，避免重复计算",zeroBars(TOPICS),disabled("导出标注","当前没有内容标注","download"))+
+ card("标注方式","先有证据，再汇总内容方向",audit([["主卖点","核对作品内容，再选择主要表达的角色、美术、玩法或场景方向。"],["证据与时间点","记录片段位置和具体内容，标题仅作为查找线索。"],["和表现一起看","可以聚合已标注作品的播放，但不能据此证明卖点带来增量。"]]))+'</div>'+
+ '<div class="zd-grid">'+card("作品标注库","保留作品、达人、主卖点、证据与标注状态",searchControl("content-search","搜索标题、达人或主卖点",state.contentQuery,"search-content")+(state.contentQuery?notice('搜索“'+state.contentQuery+'”：0 条匹配作品。'):'')+simpleEmptyTable(["作品 / 发布达人","主卖点","证据 / 时间点","累计播放","标注状态","操作"],"待首条发布作品后进行内容标注"))+'</div>';
+}
+function opinion(){return '<div class="zd-grid two">'+card("评论内容方向","仅明确产品讨论进入正负中性比例",donut(["正向","中性","负向"],"已判读样本"))+card("主题占比 × 评价方向","主题与判断需由原文证据支持",zeroBars(TOPICS)+legend(["正向","中性","负向"]))+'</div>'+
+ '<div class="zd-grid three">'+["正向","中性","负向"].map(s=>card(s+" · 原文与关键词","当前 0 条判读样本",'<div class="zd-track" aria-hidden="true"></div><p class="zd-caption">原文位置 · —</p><p class="zd-caption">关键词位置 · —</p><p class="zd-caption">没有样本，不生成玩家引言或判断。</p>')).join("")+'</div>';
+}
+function sentimentPage(){return metrics([["已读取原文","0","按真实评论标识去重","document"],["明确产品讨论","0","正负中性占比的唯一分母","document"],["口径外讨论","0","保留排除依据，不混入评价","document"],["已逐条判读","0","当前尚未进行分析或复核","heart"]])+
+ notice("评论原文、主题、判断与依据分别记录。当前没有评论样本，不推断舆情，不将样本比例外推全体玩家。")+opinion()+
+ '<div class="zd-grid">'+card("评论证据库","原文、来源、讨论对象与判断依据一同保留",'<div class="zd-toolbar">'+select("评论讨论对象","comment-target",{all:"全部原始样本",game:"明确产品讨论",excluded:"口径外讨论"},state.commentTarget)+select("评论倾向","comment-stance",{all:"全部倾向",positive:"正向",neutral:"中性",negative:"负向",pending:"待判读"},state.commentStance)+searchControl("comment-search","搜索评论、UP主或 BV 号",state.commentQuery,"search-comment")+'</div><p class="zd-caption" role="status">当前筛选 0 条评论'+(state.commentQuery?' · 关键词“'+esc(state.commentQuery)+'”':'')+'</p>'+simpleEmptyTable(["评论原文","作品 / UP 主","讨论对象","倾向","判断依据","来源"],"原文证据字段已就绪，当前没有评论记录"),disabled("导出判断与原文","当前没有评论记录","download"),'<span>尚未接入公开评论采集或自动分析</span>')+'</div>';
+}
+function paired(title,a,b){return '<div class="zd-compare-group"><h3>'+esc(title)+'</h3>'+[a,b].map(x=>'<div class="zd-compare-label"><span>'+esc(x)+' · 待选择</span><strong>—</strong></div><div class="zd-track" aria-hidden="true"></div>').join("")+'<p class="zd-caption">尚无可比较对象，轨道没有业务值。</p></div>';}
+function comparePage(){
+ const labels={view:"累计播放",count:"作品数",rate:"互动率"};
+ return notice("节点、竞品与达人分别比较，均需同口径真实记录。当前保留对照结构，不生成变化幅度、排名或执行结论。")+
+ '<div class="zd-toolbar">'+seg([["view","累计播放"],["count","作品数"],["rate","互动率"]],"compare-metric",state.compareMetric,"比较指标")+'<label>节点 A<select aria-label="节点A" disabled><option>暂无可选节点</option></select></label><label>节点 B<select aria-label="节点B" disabled><option>暂无可选节点</option></select></label>'+disabled("开始比较","暂无可比较节点")+'</div>'+
+ '<div class="zd-grid two">'+card("节点对照","同一费用、作品及采集范围",paired(labels[state.compareMetric],"节点 A","节点 B"))+card("竞品搜索样本","搜索样本有独立范围，不能外推全站排名",paired(labels[state.compareMetric],"样本 A","样本 B"))+'</div>'+
+ '<div class="zd-grid">'+card("节点数据核对","来源、费用和作品范围分别保留",simpleEmptyTable(["节点","合作费用","作品数","累计播放","CPM","统计范围"],"等待可核对的节点记录"))+'</div>'+
+ '<div class="zd-grid"><section class="card"><div class="zd-cardhead"><div><h2>两位达人对比</h2><p>同一发布范围内逐项比较，不推断因果效果</p></div></div><div class="zd-cardbody"><div class="zd-toolbar"><label>达人 A<select aria-label="左侧对比达人" disabled><option>暂无发布达人</option></select></label><label>达人 B<select aria-label="右侧对比达人" disabled><option>暂无发布达人</option></select></label></div><div class="zd-grid three">'+["累计播放","单篇播放中位数","累计互动","互动率","发布作品","当前粉丝量"].map(label=>paired(label,"达人 A","达人 B")).join("")+'</div></div></section></div>'+
+ '<div class="zd-grid">'+card("执行复盘与下一步","按实际合作串联内容、排期、交付与数据回收",'<div class="zd-steps">'+[["01","明确创意与卖点","关联具体合作和内容版本"],["02","核对排期与交付","记录发布计划和实际回传"],["03","保留同龄快照","区分24小时、72小时与7天表现"],["04","核对效果与归因","有证据后再总结下一步"]].map(([n,t,d])=>'<div class="zd-step"><span class="zd-badge">'+n+'</span><strong>'+t+'</strong><p>'+d+'</p><p class="zd-note">流程示意 · 尚无复盘记录</p></div>').join("")+'</div>')+'</div>';
+}
+function qualityPage(){return metrics([["公开视频覆盖","0 / 0","尚未接入视频快照","video"],["发布达人覆盖","0 / 0","尚无发布效果样本","users"],["来源问题记录","0","尚未开展数据核验","document"],["评论原文","0","尚未导入评论样本","document"]])+
+ '<div class="zd-grid two">'+card("数据接入状态","管理资料与效果快照分别说明",table(["数据范围","记录数量","状态"],[["发布作品","0","未接入"],["发布达人","0","未接入"],["合作 / 起飞费用","0","未接入"],["节点 / 竞品样本","0","未接入"],["评论与判读","0","未接入"]].map(row=>'<tr>'+row.map(v=>'<td>'+v+'</td>').join("")+'</tr>').join("")))+card("需要补齐的数据","有来源和范围之后，再计算相应指标",audit([["身份与作品关系","以平台稳定账号标识关联作品；候选入库不等于已发布或已合作。"],["合作、起飞与结算","参考报价、实际费用、起飞消耗和结算记录分别核对，未知金额不补零。"],["时点与归因","作品累计播放与逐日增量分开，预约归因需独立业务数据。"],["内容与评论证据","原文、时间点、讨论对象和判断依据均需保留，不能只凭标题推断。"]]))+'</div>'+
+ '<div class="zd-grid">'+card("指标字典","当前所有图表采用以下边界",table(["指标","计算方式","使用边界"],[["累计播放量","当前范围去重作品的公开播放求和","累计次数，非去重触达；空集合合计为0"],["累计互动 / 互动率","点赞、投币、收藏、评论、弹幕、分享合计 ÷ 对应播放","次数比，非独立用户比例；无分母为—"],["单篇播放中位数","当前范围作品播放排序的中位数","无样本为—；不同发布龄不直接比较"],["发布与表现","按作品发布日期归组","累计播放不等于当天新增播放"],["达人层级","按已知粉丝数分层","仅本合作样本；未知粉丝不归入长尾"],["CPM","完整匹配费用 ÷ 对应播放 × 1000","不代表结算凭证或转化回报；无分母为—"],["评论分布","明确产品讨论的逐条判读样本","无样本不算比例，不外推全体玩家"]].map(row=>'<tr>'+row.map(v=>'<td>'+esc(v)+'</td>').join("")+'</tr>').join("")))+'</div>'+
+ '<div class="zd-grid">'+card("来源与核验记录","保留来源位置、问题和处理依据",simpleEmptyTable(["来源位置","达人 / 作品","核验项","说明","核验时间"],"核验字段已保留；当前没有核验记录"),disabled("导出核验记录","当前没有可导出记录","download"))+'</div>'+
+ '<p class="zd-footer">0 表示当前空集合的数量或合计；— 表示缺失或不可计算。尚未开始的核验不写成已通过，初始化状态不表示接口已接通。</p>';
+}
+function scaleChartText(){const size=parseFloat(getComputedStyle(document.documentElement).fontSize)||16;document.querySelectorAll('.zd-chart').forEach(svg=>{const scale=svg.getScreenCTM()?.a||1;svg.querySelectorAll('text').forEach(t=>t.setAttribute('font-size',String(.75*size/scale)));});}
+function render(){
+ const info=PAGES[state.page];
+ document.getElementById("app").innerHTML='<header class="topbar"><div><div class="eyebrow">KOL WORKSPACE</div><h1>'+info[0]+'</h1><p>'+info[1]+'</p></div><div class="zd-actions">'+(state.page!=="quality"?button("数据口径","nav","quality",undefined,"info"):'')+disabled("导出明细","当前没有可导出的发布记录","download")+'</div></header>'+
+ (state.page!=="quality"?filterBar():'')+(state.error?'<div class="zd-error" role="alert">'+esc(state.error)+'</div>':'')+
+ ({home:homePage,overview:overviewPage,creators:creatorsPage,content:contentPage,sentiment:sentimentPage,compare:comparePage,quality:qualityPage}[state.page])();
+ document.title=info[0]+" · MIKOSHI";requestAnimationFrame(scaleChartText);
+}
+function navigate(page){if(!Object.hasOwn(PAGES,page))return;state.page=page;state.error="";history.replaceState(null,"","#"+page);render();window.scrollTo({top:0});}
+function focusAction(a,v){[...document.querySelectorAll('[data-action]')].find(n=>n.dataset.action===a&&n.dataset.value===v)?.focus({preventScroll:true});}
+function act(action,value){
+ state.error="";
+ if(action==="nav"){navigate(value);return;}
+ if(action==="period"&&value==="month")Object.assign(state.filters,initialRange);
+ else if(action==="reset")state.filters=defaultFilters();
+ else if(action==="platform"&&["all","bili","douyin"].includes(value))state.platform=value;
+ else if(action==="cost"&&["base","all"].includes(value))state.cost=value;
+ else if(action==="cpm"&&["base","all","net"].includes(value))state.cpm=value;
+ else if(action==="trend"&&["date","week"].includes(value))state.trend=value;
+ else if(action==="series"&&["view","count","reservation"].includes(value)){const key={view:"showView",count:"showCount",reservation:"showReservations"}[value];state[key]=!state[key];}
+ else if(action==="legend"&&FORMATS.includes(value))state.legend[value]=!state.legend[value];
+ else if(action==="audience"&&["tier","direction"].includes(value))state.audience=value;
+ else if(action==="audience-metric"&&["cost","view","fans"].includes(value))state.audienceMetric=value;
+ else if(action==="library-mode"&&["creators","videos"].includes(value)){state.libraryMode=value;state.sort="view";}
+ else if(action==="layout"&&["cards","table"].includes(value))state.layouts[state.libraryMode]=value;
+ else if(action==="direction"&&["asc","desc"].includes(value))state.direction=value;
+ else if(action==="pivot-style"&&["heat","bar","plain"].includes(value))state.pivot.style=value;
+ else if(action==="pivot-chart")state.pivot.chart=!state.pivot.chart;
+ else if(action==="reset-pivot"){state.pivot=defaultPivot();state.expanded=false;}
+ else if(action==="expand")state.expanded=!state.expanded;
+ else if(action==="compare-metric"&&["view","count","rate"].includes(value))state.compareMetric=value;
+ else if(["search-library","search-content","search-comment"].includes(action)){
+  const map={"search-library":["library-search","query"],"search-content":["content-search","contentQuery"],"search-comment":["comment-search","commentQuery"]},[id,key]=map[action],input=document.getElementById(id);
+  if(!input)return;state[key]=input.value.trim().slice(0,160);render();document.getElementById(id)?.focus({preventScroll:true});return;
+ }else if(action==="clear-search"&&["library-search","content-search","comment-search"].includes(value)){
+  state[{"library-search":"query","content-search":"contentQuery","comment-search":"commentQuery"}[value]]="";render();document.getElementById(value)?.focus({preventScroll:true});return;
+ }else return;
+ render();focusAction(action,value);
+}
+function changeControl(node){
+ const key=node.dataset.control,value=node.value;state.error="";
+ if(key==="start"||key==="end"){
+  const start=key==="start"?value:state.filters.start,end=key==="end"?value:state.filters.end;
+  if(!validDate(value)||start>end)state.error="请选择有效日期，且开始日期不能晚于结束日期。";else state.filters[key]=value;
+ }else if(key==="tier"&&Object.hasOwn(TIERS,value))state.filters.tier=value;
+ else if(key==="format"&&["all",...FORMATS].includes(value))state.filters.format=value;
+ else if(key==="sort"&&["view","count","fans","rate","date","reply"].includes(value))state.sort=value;
+ else if(key==="pivot-row"&&Object.hasOwn(DIMS,value))state.pivot.row=value;
+ else if(key==="pivot-col"&&(value==="metrics"||Object.hasOwn(DIMS,value)))state.pivot.col=value;
+ else if(key==="pivot-metric"&&Object.hasOwn(METRICS,value)){
+  const next=node.checked?[...new Set([...state.pivot.metrics,value])]:state.pivot.metrics.filter(m=>m!==value);
+  if(next.length)state.pivot.metrics=next;else state.error="请至少保留一个透视指标。";
+ }else if(key==="comment-target"&&["all","game","excluded"].includes(value))state.commentTarget=value;
+ else if(key==="comment-stance"&&["all","positive","neutral","negative","pending"].includes(value))state.commentStance=value;
+ else return;
+ render();[...document.querySelectorAll('[data-control]')].find(n=>n.dataset.control===key&&(key!=="pivot-metric"||n.value===value))?.focus({preventScroll:true});
+}
+document.addEventListener("click",event=>{const node=event.target instanceof Element?event.target.closest('[data-action]'):null;if(node&&!node.disabled)act(node.dataset.action,node.dataset.value);});
+document.addEventListener("change",event=>{const node=event.target instanceof Element?event.target.closest('[data-control]'):null;if(node)changeControl(node);});
+document.addEventListener("keydown",event=>{const actions={"library-search":"search-library","content-search":"search-content","comment-search":"search-comment"};if(event.target instanceof HTMLInputElement&&Object.hasOwn(actions,event.target.id)&&event.key==="Enter"&&!event.isComposing){event.preventDefault();act(actions[event.target.id],"");}});
+window.addEventListener("hashchange",()=>{const page=location.hash.slice(1);if(Object.hasOwn(PAGES,page)){state.page=page;render();}});
+window.addEventListener("resize",scaleChartText);
+new MutationObserver(()=>requestAnimationFrame(scaleChartText)).observe(document.documentElement,{attributes:true,attributeFilter:["style"]});
+render();
+</script>
+</body>
+</html>

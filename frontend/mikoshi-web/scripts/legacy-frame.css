@@ -1,0 +1,155 @@
+/* Mikoshi's presentation adapter. No business records or calculations are changed. */
+html{scrollbar-gutter:stable;color-scheme:light;--muted:#586d82}
+html body{background:var(--bg)!important;overflow-wrap:anywhere}
+html body .sidebar,html body .mobile-brand{display:none!important}
+html body .main{margin-left:0!important;min-width:0}
+html body .content,html[data-workspace=thirdparty] body .main{max-width:1640px}
+html[data-workspace=kol] body .main>.topbar{display:none!important}
+html[data-workspace=thirdparty] body .main{margin:0 auto!important;padding:29px 34px 24px}
+html body :is(.small,.panel-sub,.panel-foot,.metric-foot,.metric-foot em,.scope-count,.stat .note,.rank-meta,.rankmeta,.cardhead p,.cardfooter,.smallnote,.footer,.snapshot,.chart-summary){font-size:.75rem}
+html body :is(.muted,.panel-sub,.panel-foot,.metric-foot,.scope-count,.stat .label,.stat .note,.rank-meta,.rankmeta,.cardhead p,.cardfooter,.smallnote,.footer,.chart-summary,.legend,.chart-text){color:var(--muted);fill:var(--muted)}
+html body :is(.metric-main strong,.stat .number){white-space:normal;overflow-wrap:anywhere}
+html body :is(.filters,.select-wrap,.filtergroup,.head-buttons,.topbar,.page-heading,.panel-head,.cardhead,.legend,.metric-head,.metric-main,.insight-strip,.insightstrip,.segmented,.seg,.tabs){flex-wrap:wrap;min-width:0}
+html body :is(.search,input,select,textarea){max-width:100%}
+html body :is(button,.btn){height:auto;min-height:2.2rem;white-space:normal}
+html body :is(.table-wrap,.tablewrap){max-width:100%;overflow:auto;overscroll-behavior-x:contain}
+html body :is(.table-wrap,.tablewrap):focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+html body :is(.chart-wrap,.cardbody):has(>svg){overflow-x:auto;overflow-y:hidden}
+html body .chart-wrap>svg{min-width:470px}
+html body .metric-grid{grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))!important}
+html body .grid.six{grid-template-columns:repeat(auto-fit,minmax(min(11rem,100%),1fr))}
+html body .topbar{height:auto}
+html body .metric-main{min-width:0}
+html[data-motion=reduce] *,html[data-motion=reduce] *::before,html[data-motion=reduce] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html[data-theme=dark]{color-scheme:dark;--bg:#101a27;--paper:#172536;--text:#e7eef7;--ink:#e7eef7;--muted:#a9b8ca;--line:#34475e;--blue:#91b6ff;--blue-soft:#233b5c;--teal:#82d8c4;--teal-soft:#193c37;--amber:#ecc887;--amber-soft:#3b3224;--shadow:none}
+html[data-theme=dark] body :is(.panel,.card,.metric,.filters,.btn,.modal,.modalhead,.drawer,.drawer-head,.drawer-body,.accountcard,.fullscreen,.popover,.dropdown,.filter-popover,.up-filter-menu,dialog,select,input,textarea){background-color:var(--paper)!important;color:var(--text)!important;border-color:var(--line)!important}
+html[data-theme=dark] body :is(th,thead,.panel-foot,.cardfooter,.segmented,.seg,.search,.callout,.notice,.detailstat,.flowbox,.metricchecks,.data-table .frozen,.data-table tfoot td,.sourcegrid dt,.insight-strip,.insightstrip){background:var(--blue-soft)!important;color:var(--text)!important;border-color:var(--line)!important}
+html[data-theme=dark] body :is(.metric.featured,.btn:hover,button:hover,tbody tr:hover,tbody tr:hover>td,.segmented button.active,.seg button.selected,.metric-icon){background:var(--blue-soft)!important;color:var(--text)!important}
+html[data-theme=dark] body :is(.btn.primary,button.primary,button.selected){background:#4268ad!important;color:#fff!important}
+html[data-theme=dark] body :is(h1,h2,h3,strong,b,.panel-title,.cardhead h2,.metric-head,.stat .number,.rank-top,.ranktitle,.comparelabel,.scope-count b,.metric.featured strong){color:var(--text)}
+html[data-theme=dark] body :is(.pill,.badge,.typepill){background:var(--blue-soft)!important;color:var(--text)!important}
+html[data-theme=dark] body :is(.chart-text,svg text){fill:var(--muted)!important}
+html[data-theme=dark] body :is(.chart-grid,svg .axis){stroke:var(--line)!important}
+html[data-theme=dark] body :is(.metric-foot,.panel-sub,.rank-meta,.rankmeta,.smallnote,.scope-note,.filter-label,.legend,.filtergroup>span,.select-wrap span,.rank-note,.tier-note,.page-heading p,.topbar p,.sourcegrid dt,.detailstat span,.rank-index,.rankno,.stat .note,.stat .label){color:var(--muted)!important}
+@media(max-width:760px){
+  html[data-workspace=kol] body .content,html[data-workspace=thirdparty] body .main{padding:20px 16px!important}
+  html body :is(.grid-8-4,.grid-7-5,.grid-6-6,.grid.two,.grid.equal,.grid.three){grid-template-columns:minmax(0,1fr)}
+  html body :is(.page-heading,.topbar){flex-direction:column;align-items:stretch;gap:12px}
+  html body .head-buttons{margin-top:0}
+  html body :is(button,.btn,select,input:not([type=checkbox])){min-height:44px}
+  html body .select-wrap{border-right:0;max-width:100%}
+  html body :is(.tier-body,.donutrow){flex-wrap:wrap}
+  html body :is(.panel-head,.panel-body,.cardhead,.cardbody){padding-left:14px;padding-right:14px}
+  html body :is(.stat .number,.metric-main strong){font-size:1.65rem}
+}
+@media(max-width:420px){
+  html[data-workspace=kol] body .content,html[data-workspace=thirdparty] body .main{padding:18px 12px!important}
+  html body :is(.filters,.toolbar){padding:12px}
+  html body :is(.search,.search input,.filtergroup){width:100%}
+  html body :is(.panel-head,.cardhead){gap:10px}
+  html body :is(.sourcegrid){grid-template-columns:minmax(0,1fr)}
+  html body :is(.pagination,.cardfooter){flex-wrap:wrap}
+}
+
+/* The source contains four successive visual revisions (base, rv, n2/n3/n4).
+   Normalize their text roles together; otherwise newer cards retain faint source colors. */
+html:root[data-theme=light]{--text:#182c40;--ink:#182c40;--muted:#4e6278;--blue:#315fc5}
+html[data-workspace] body :is(div,span,p,small,em,b,strong,h1,h2,h3,h4,th,td,dt,dd,label,li,summary,blockquote,time,button,a,input,select,textarea,footer,i){color:var(--text)!important}
+html[data-workspace] body :is(small,p,.muted,.filter-label,.select-wrap>span,.filtergroup>span,.scope-count,.scope-note,.rankmeta,.rank-meta,.rankno,.rank-index,.rv-foot,.panel-sub,.panel-foot,.cardfooter,.footer,.footer-brand,.n2-source-line,.n2-timeline-note,.n2-legend,.n3-count-key,.n3-eyebrow,.n3-paid-title,.n3-cost-caption,.n3-chart-note,.n4-chart-note,.n4-scope-note){color:var(--muted)!important}
+html[data-workspace] body :is(a,.link-btn,.eyebrow,#page-eyebrow,.n3-category-link){color:var(--blue)!important}
+html[data-workspace] body :is(.btn.primary,button.primary,button.selected){color:#fff!important;background:#315fb6!important}
+html[data-workspace] body :is(.btn.primary,button.primary,button.selected) :is(span,b,strong){color:inherit!important}
+html[data-workspace] body svg text{fill:var(--muted)!important}
+html[data-workspace] body svg text{stroke:none!important;paint-order:normal!important}
+html[data-workspace] body :is(input,textarea)::placeholder{color:var(--muted)!important;opacity:1}
+html[data-workspace] body .rv-cover-btn>span{color:#fff!important;background:#1b304b!important}
+html[data-workspace] body :is(.n3-story,.n4-retro-flow article,.insightstrip,.featured-card){background:var(--paper,#fff)!important;border-color:var(--line)!important}
+html[data-workspace] body :is(.badge,.pill,.typepill){color:var(--text)!important}
+html[data-workspace] body .insighticon{color:#203c65!important}
+/* Source chart segments and heat cells use inline data colors; retain those colors,
+   but give their labels a stable dark foreground (including on the dark theme). */
+html[data-workspace=kol] body :is([style*="background:#"],[style*="background: #"],[style*="background:rgb("],[style*="background: rgb("]){color:#07111e!important}
+html[data-workspace=kol] body :is([style*="background:#"],[style*="background: #"],[style*="background:rgb("],[style*="background: rgb("]) :is(span,b,strong,small,em,p,button){color:inherit!important}
+
+/* Surfaces present in every original revision, including the quality / pivot /
+   creator / opinion detail pages. These selectors never target SVG data marks. */
+html[data-theme=dark] body :is(
+  .home-kpi,.rv-panel,.rv-video-tile,.rv-insight-card,.rv-risk,.rv-source-tag,.rv-sample-status,
+  .empty-card,.tag-card,.note-box,.workflow-step,.compare-card,.comparison-note,dialog.drawer,
+  .drawer-top,.detail-metric,.tag-edit,.visual-brief,.creator-tile,.video-tile,.reading-details,
+  .pivot-kpi,.pivot-board,.pivot-controls,.pivot-dimension,.pivot-field-panel,.pivot-drag-dim,
+  .pivot-value-chip,.pivot-metric-option,.pivot-sheet-toolbar,.pivot-sheet,.pivot-bottom,
+  .pivot-evidence-summary,.creator-picker-footer,.n2-series-options,.n2-stance-pill,
+  .n2-topic-card,.n2-evidence-note,.n2-paired-tip,.n3-missing-grid,.n3-comparison-gains,
+  .n3-report-conclusion,.n3-topic-counters a,.n3-inline-video,.n4-flow-cell,
+  .n4-paid-changes>div,.n4-gap-cards>div,.n4-retro-flow time,.n4-video-mini,.n4-next-flow,
+  .n4-scope-note,.n4-audit-reasons span,.n4-topic-links a,.n4-node-body h3>em,
+  .schema-row code,.n3-keywords em,.rv-insight-card .rv-action-note,#n3-tooltip,.numbermark,.featured-card
+){background:var(--paper)!important;border-color:var(--line)!important}
+html[data-theme=dark] body :is(
+  button:not([style*="background"]),.page-controls button,.comment-filters button,.icon-btn,.view-layout,
+  .pivot-presets button,.pivot-swap,.rv-switch button,.rv-pagination button,
+  .n2-mini,.n2-mini button,.n2-series-menu summary,.n2-result-tag,
+  .n3-checks label,.n3-tier-strip button,.n4-tiers button,.filter-chip,.chart-pill,
+  .creator-picker-option:has(input:checked),.pivot-controls .small-select,
+  .rv-sentiment-controls input,.rv-sentiment-controls select,.rv-comments-table select,
+  .rv-comment-controls select,.tag-edit select,.tag-edit textarea
+){background-color:var(--blue-soft)!important;color:var(--text)!important;border-color:var(--line)!important}
+html[data-theme=dark] body :is(button.primary,button.selected,.btn.primary){background:#315fb6!important;color:white!important}
+html[data-theme=dark] body :is(.n2-mini button.active,.rv-switch button.active,.view-layout button.active,.pivot-presets button.active,.n3-checks label:has(input:checked)){background:#315fb6!important;color:white!important}
+html[data-theme=dark] body :is(.rv-mini-table th,.n3-table th,.n3-table tfoot td,.pivot-table thead th,.pivot-table .pivot-row-head,.pivot-table .pivot-cell,.pivot-table .no-data,.pivot-table tfoot td,.pivot-table .total-column,.n4-audience-table .n4-selected-col){background:var(--paper)!important;color:var(--text)!important;border-color:var(--line)!important}
+html[data-theme=dark] body :is(.rv-donut:before,.rv-play small,.bar-track,.rv-bar-track,.duel-track,.n2-topic-track,.n3-topic-track,.n3-compare-bars>div>div,.n4-mini-track,.n4-sample-track,.tabs span){background:var(--blue-soft)!important}
+html[data-theme=dark] body :is(.n2-mini,.rv-switch,.rv-foot,.home-kpi,.rv-panel){border-color:var(--line)!important}
+html[data-theme=dark] body :is(.n2-mini button,.seg button,.segmented button){color:var(--text)!important}
+html[data-theme=dark] body svg :is(.n2-grid,.n3-grid,.grid-line){stroke:var(--line)!important}
+
+/* Stable metric rows at medium widths; small screens keep unit labels and controls together. */
+html[data-workspace=thirdparty] body .grid.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+html[data-workspace] body :is(.home-kpis,.home-kpi-grid){grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr))}
+html[data-workspace] body .n2-kpi-head{flex-wrap:wrap;gap:10px}
+html[data-workspace] body .n2-mini{flex-wrap:wrap;max-width:100%}
+html[data-workspace] body .n2-mini button{white-space:nowrap;flex:none}
+html[data-workspace] body .home-kpi :is(strong,small){white-space:normal;overflow-wrap:anywhere}
+@media(min-width:1500px){html[data-workspace=thirdparty] body .grid.six{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:760px){html[data-workspace=thirdparty] body .grid.six{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){
+  html[data-workspace] body :is(.home-kpis,.home-kpi-grid,.metric-grid,.grid.six){grid-template-columns:minmax(0,1fr)!important}
+  html[data-workspace] body .n2-kpi-head{flex-direction:row;align-items:center}
+  html[data-workspace] body .home-kpi.n2-kpi{padding:16px}
+}
+
+/* Preserve five related KPIs as one row where it fits; rem minimums let enlarged
+   text naturally reflow to fewer columns without a stranded fourth-plus-one row. */
+html[data-workspace=kol] body .home-kpis{gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,max(10.5rem,calc((100% - 48px)/5))),1fr))}
+@media(max-width:999px){html[data-workspace=kol] body .home-kpis{grid-template-columns:repeat(auto-fit,minmax(min(100%,max(10.5rem,calc((100% - 24px)/3))),1fr))}}
+/* These are numeric count labels and the first-three-days context highlight,
+   identified in the actual source SVG; data-series rectangles remain untouched. */
+html[data-theme=dark] body .n3-performance-svg rect:has(+text.n3-count),
+html[data-theme=dark] body .n4-reserve-svg rect[fill="#edf3fc"]{fill:var(--blue-soft)!important}
+
+/* SBS-0012: two independent presentation choices; original source filtering stays intact. */
+html[data-workspace=thirdparty] body .mk-library-layout{display:flex;align-items:center;flex-wrap:wrap;gap:6px;max-width:100%}
+html[data-workspace=thirdparty] body .mk-library-layout>span{font-size:.75rem;color:var(--muted)!important}
+html[data-workspace=thirdparty] body .mk-library-layout button{white-space:nowrap}
+html[data-workspace=thirdparty] body .mk-library-layout button[aria-pressed=true]{background:#315fb6!important;color:#fff!important;border-color:#315fb6!important}
+html[data-workspace=thirdparty] body .mk-library-table{overflow:hidden;min-width:0;max-width:100%}
+html[data-workspace=thirdparty] body .mk-library-table table{min-width:62rem}
+html[data-workspace=thirdparty] body .mk-library-table th{white-space:nowrap}
+html[data-workspace=thirdparty] body .mk-account-cell{display:flex;gap:10px;align-items:center;min-width:13rem;max-width:22rem}
+html[data-workspace=thirdparty] body .mk-account-cell>div{min-width:0}
+html[data-workspace=thirdparty] body .mk-account-cell .link{text-align:left;overflow-wrap:anywhere}
+html[data-workspace=thirdparty] body .mk-account-cell .avatar{flex-shrink:0}
+html[data-workspace=thirdparty] body .mk-work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:16px}
+html[data-workspace=thirdparty] body .mk-work-card{min-width:0;overflow:hidden}
+html[data-workspace=thirdparty] body .mk-work-preview{aspect-ratio:16/9;overflow:hidden;background:var(--blue-soft)}
+html[data-workspace=thirdparty] body .mk-work-preview .cover{width:100%;height:100%;max-width:none;aspect-ratio:auto;object-fit:cover;border-radius:0}
+html[data-workspace=thirdparty] body .mk-work-preview .coverfallback{background:var(--blue-soft)!important;color:var(--muted)!important}
+html[data-workspace=thirdparty] body .mk-work-body{padding:16px;display:flex;flex-direction:column;gap:10px}
+html[data-workspace=thirdparty] body .mk-work-body p{margin:0;font-size:.75rem;overflow-wrap:anywhere}
+html[data-workspace=thirdparty] body .mk-work-title{text-align:left;font-size:.9375rem;font-weight:600;line-height:1.55;overflow-wrap:anywhere;white-space:normal;background:transparent!important;border:0;padding:0;width:100%}
+html[data-workspace=thirdparty] body .mk-work-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:4px 0}
+html[data-workspace=thirdparty] body .mk-work-metrics dt{font-size:.75rem;color:var(--muted)!important}
+html[data-workspace=thirdparty] body .mk-work-metrics dd{margin:4px 0 0;font-size:1rem;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+html[data-workspace=thirdparty] body .mk-work-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--line);font-size:.75rem}
+html[data-workspace=thirdparty] body .mk-layout-note{margin:0 0 16px}
+@media(max-width:420px){html[data-workspace=thirdparty] body .mk-work-metrics{grid-template-columns:minmax(0,1fr)}html[data-workspace=thirdparty] body .mk-work-body{padding:14px}}

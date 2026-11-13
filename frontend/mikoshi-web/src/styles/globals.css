@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* 只暴露语义 token；清空 Tailwind 默认色板/字号/圆角，避免组件散写第二套值。 */
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-*: initial;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-subtle: var(--subtle);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-deep: var(--sidebar-deep);
+  --color-nav-fg: var(--nav-fg);
+  --color-nav-fg-strong: var(--nav-fg-strong);
+  --color-nav-muted: var(--nav-muted);
+  --color-nav-active: var(--nav-active);
+  --color-nav-indicator: var(--nav-indicator);
+  --color-nav-hover: var(--nav-hover);
+  --color-nav-line: var(--nav-line);
+  --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-line: var(--line);
+  --color-control: var(--control);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-focus: var(--focus);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-hover: var(--hover);
+  --color-pressed: var(--pressed);
+  --color-scrim: var(--scrim);
+
+  /* 字号 rem 化（16px 根字号下 = 规范 px 值） */
+  --text-title: 1.6875rem;
+  --text-title--line-height: 2.375rem;
+  --text-section: 1rem;
+  --text-section--line-height: 1.5rem;
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.375rem;
+  --text-long: 1rem;
+  --text-long--line-height: 1.625rem;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.125rem;
+  --text-metric: 2rem;
+  --text-metric--line-height: 2.5rem;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1rem;
+
+  --radius-control: 7px;
+  --radius-card: 14px;
+  --radius-overlay: 14px;
+
+  --shadow-card: var(--elev-card);
+  --shadow-control: var(--elev-control);
+  --shadow-primary: var(--elev-primary);
+  --shadow-overlay: var(--elev-overlay);
+
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-code);
+  --font-num: var(--font-number);
+}
+
+@layer base {
+  html {
+    background: var(--canvas);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--canvas);
+    color: var(--fg);
+    font-family: var(--font-ui);
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+  }
+
+  /* FE-45：默认 2px 轮廓 + 2px 偏移；不允许移除而无替代 */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 24%, transparent);
+  }
+
+  /* FE-14：可比较数字使用等宽数字 */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 指标数字：原系统的 Bahnschrift 风格 */
+  .num {
+    font-family: var(--font-number);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+
+  /* 英文眉题，例如 CAMPAIGN OVERVIEW */
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    line-height: var(--text-eyebrow--line-height);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* 中文长串/URL 不撑破布局（FE-48） */
+  .break-anywhere {
+    overflow-wrap: anywhere;
+  }
+}
+
+/*
+ * 浮层动效（FE-39～43）：只在系统未要求减少动态、且个人未选择“减少动效”时启用。
+ * 不满足条件时不声明 animation，Radix Presence 会立即卸载，快速开关不残留遮罩。
+ */
+@keyframes mk-fade-in {
+  from { opacity: 0; }
+}
+@keyframes mk-fade-out {
+  to { opacity: 0; }
+}
+@keyframes mk-pop-in {
+  from { opacity: 0; transform: scale(0.97); }
+}
+@keyframes mk-pop-out {
+  to { opacity: 0; transform: scale(0.98); }
+}
+@keyframes mk-drawer-in {
+  from { transform: translateX(-100%); }
+}
+@keyframes mk-drawer-out {
+  to { transform: translateX(-100%); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion="reduce"]) {
+    & [data-slot="overlay"][data-state="open"] {
+      animation: mk-fade-in var(--motion-normal) var(--ease-enter);
+    }
+    & [data-slot="overlay"][data-state="closed"] {
+      animation: mk-fade-out var(--motion-fast) var(--ease-move);
+    }
+    & [data-slot="dialog-content"][data-state="open"] {
+      animation: mk-pop-in var(--motion-panel) var(--ease-enter);
+    }
+    & [data-slot="dialog-content"][data-state="closed"] {
+      animation: mk-pop-out var(--motion-fast) var(--ease-move);
+    }
+    & [data-slot="drawer-content"][data-state="open"] {
+      animation: mk-drawer-in var(--motion-panel) var(--ease-enter);
+    }
+    & [data-slot="drawer-content"][data-state="closed"] {
+      animation: mk-drawer-out var(--motion-normal) var(--ease-move);
+    }
+    & [data-slot="menu-content"][data-state="open"] {
+      transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+      animation: mk-pop-in var(--motion-normal) var(--ease-enter);
+    }
+    & [data-slot="menu-content"][data-state="closed"] {
+      transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+      animation: mk-fade-out var(--motion-fast) var(--ease-move);
+    }
+    & [data-slot="tooltip-content"] {
+      animation: mk-fade-in var(--motion-fast) var(--ease-enter);
+    }
+  }
+}
+
+/* 个人或系统要求减少动效时使用：reduce-motion:transition-none 等 */
+@custom-variant reduce-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @slot;
+  }
+  &:where([data-motion="reduce"] *) {
+    @slot;
+  }
+}
+
+/* 桌面侧栏收起态（由 <html data-sidebar> 驱动，首帧即正确，无宽度跳动） */
+@custom-variant sidebar-collapsed (&:where([data-sidebar="collapsed"] *));

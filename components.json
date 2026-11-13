@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "updated": "2026-10-18",
+  "maintainer": "Codex",
+  "step": "SBS-0004",
+  "handbook": "COMPONENTS.md",
+  "path_base": "workspace root; no credentials or business record bodies",
+  "integration_status": "Components retained and curated; unified Mikoshi runtime is not yet implemented",
+  "components": [
+    {
+      "id": "workbench",
+      "name": "OpenBP",
+      "kind": "application-source",
+      "path": "OpenBP/OpenBP",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/OpenBP_Dev",
+        "branch_at_curation": "main",
+        "baseline": "54e2c53a035fe0049c8fb3d6e0290a9690c3268b",
+        "curation_commit": "e8576dbf6ee4cafe9f11af616621b5dc39737f05"
+      },
+      "entry_paths": [
+        "README.md",
+        "frontend/package.json",
+        "frontend/package-lock.json"
+      ],
+      "role": "Candidate shared workbench for six business areas and customizable dashboard",
+      "maturity": "Existing product with partial real execution and explicit mock/dry-run boundaries",
+      "dependencies": [
+        "Node",
+        "retained frontend/node_modules",
+        "PostgreSQL and actual service configuration",
+        "OnlyOffice for document features"
+      ],
+      "preserve_paths": [
+        "frontend/src",
+        "frontend/scripts",
+        "frontend/node_modules",
+        "frontend/.next/standalone",
+        "frontend/public/cad-lab"
+      ],
+      "data_policy": "Keep .bpai/.openbp and all real runtime state; they are not disposable test directories",
+      "relocation": "kept-in-place: existing runtime records may contain absolute paths",
+      "next_contract": "Business object/state ownership, permission and real writeback boundaries",
+      "evidence": "Product/curation/SBS-0004/audit-workbench-business.md"
+    },
+    {
+      "id": "collector",
+      "name": "Crawler F1",
+      "kind": "portable-runtime-with-source",
+      "path": "Components/CrawlerF1",
+      "git": {
+        "scope": "local-only-package",
+        "remote": null
+      },
+      "entry_paths": [
+        "README.md",
+        "MIGRATION.md",
+        "CrawlerF1.exe",
+        "Check-Environment.bat",
+        "Start-API.bat",
+        "crawler_platform.py"
+      ],
+      "role": "Controlled collection node for business and research data",
+      "maturity": "Complete Windows x64 package; offline validation is separate from live login/collection",
+      "dependencies": [
+        "Entire resources tree",
+        "Four isolated Python environments",
+        "Bundled Node/Git/browser/engines",
+        "Existing license and activation requirements"
+      ],
+      "preserve_paths": [
+        "resources",
+        "LICENSE",
+        "SKILLS.md"
+      ],
+      "data_policy": "Keep future installation accounts, browser state and outputs separate from clean distribution; backend owns integration token",
+      "relocation": "whole package moved; Doctor relocates environment configuration",
+      "next_contract": "Authenticated backend task API, serial mission ownership, artifact provenance and controlled ingestion",
+      "evidence": "Product/curation/SBS-0004/audit-crawler-vpc.md"
+    },
+    {
+      "id": "collector-skills",
+      "name": "CF1 Skills",
+      "kind": "skill-distribution",
+      "path": "Components/CF1-Skills",
+      "git": {
+        "scope": "local-only-package",
+        "remote": null
+      },
+      "entry_paths": [
+        "README.md",
+        "SKILLS.md",
+        "skills-manifest.json",
+        "LICENSE_INTERNAL.txt"
+      ],
+      "role": "13 canonical skills for future agent integration with the collector",
+      "maturity": "Instructions and registration package; not an independent crawler runtime",
+      "dependencies": [
+        "collector official tools and runtime"
+      ],
+      "preserve_paths": [
+        "skills"
+      ],
+      "data_policy": "No credential values in skill registry",
+      "relocation": "whole standalone distribution moved; embedded collector skills retained",
+      "next_contract": "Host skill registration, trusted tool allowlist and approval semantics",
+      "evidence": "Product/curation/SBS-0004/audit-crawler-vpc.md"
+    },
+    {
+      "id": "execution",
+      "name": "OpenBP Harness",
+      "kind": "engine-and-desktop-source",
+      "path": "OpenBP_Harness",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/OpenBP_Harness",
+        "branch_at_curation": "main",
+        "baseline": "2c31fa0239c061bf2b711a2b36fdfb7dc82c90e5"
+      },
+      "entry_paths": [
+        "README.md",
+        "OpenBP_Studio.cmd",
+        "apps/openbp-studio/launch.py",
+        "apps/openbp-studio/desktop/build.cjs"
+      ],
+      "role": "Candidate bounded execution backend for work agents",
+      "maturity": "Full upstream engine retained; Studio exposes only a subset",
+      "dependencies": [
+        "Private application CODEX_HOME",
+        "Retained Windows and Linux engine payloads",
+        "WSL for current Linux-engine path",
+        "Electron runtime/node_modules"
+      ],
+      "preserve_paths": [
+        "codex-rs",
+        "apps/openbp-studio/.data",
+        "apps/openbp-studio/desktop-dist",
+        "experiments/deepseek/runs/portable-0.158.0",
+        "experiments/deepseek/runs/portable-linux-0.158.0",
+        "apps/openbp-studio/desktop/node_modules"
+      ],
+      "data_policy": "Keep sessions/uploads/SQLite/private home; packaged binding must point inside this workspace",
+      "relocation": "kept-in-place; packaged workspace binding repaired",
+      "next_contract": "Stable agent identity, tool authorization, budget, audit and a single retry owner",
+      "evidence": "Product/curation/SBS-0004/repair-harness-binding.md"
+    },
+    {
+      "id": "knowledge",
+      "name": "OpenBP Torpedo",
+      "kind": "knowledge-service-source",
+      "path": "OpenBP_Torpedo",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/OpenBP_Torpedo_Dev",
+        "branch_at_curation": "codex/wiki-torpedo-r1-usable-loop",
+        "baseline": "b93e2586b0d7e8d67880fbc20d378ecbcd2533d1"
+      },
+      "entry_paths": [
+        "README.md",
+        "Dev.bat",
+        "pyproject.toml",
+        "scripts/check_architecture_health.py"
+      ],
+      "role": "Knowledge, sources, evidence, governed artifacts and research services",
+      "maturity": "Implemented domain core; some integration and live adapters remain incomplete",
+      "dependencies": [
+        "Retained .venv with local Python base",
+        "SQLite/private data",
+        "Optional OCR worker and model/config prerequisites"
+      ],
+      "preserve_paths": [
+        "torpedo",
+        "tests",
+        ".venv",
+        "data",
+        "dist/torpedo-fast-ocr-worker.exe",
+        "scripts/__pycache__"
+      ],
+      "data_policy": "Keep real databases and four orphan historical pyc files; do not classify all ignored files as cache",
+      "relocation": "kept-in-place: venv wrappers and data references can contain absolute paths",
+      "next_contract": "Source/artifact/evidence IDs, permission propagation, ingestion idempotency and recovery",
+      "evidence": "Product/curation/SBS-0004/audit-runtime-knowledge.md"
+    },
+    {
+      "id": "perception",
+      "name": "OpenBP Kiroshi",
+      "kind": "research-contracts",
+      "path": "OpenBP_Kiroshi",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/OpenBP_Kiroshi",
+        "branch_at_curation": "main",
+        "baseline": "f87f3317970c024e67f2b3d9e2d05fd1e5823106"
+      },
+      "entry_paths": [
+        "README.md",
+        "Constitution/README.md",
+        "SBS/INDEX.md"
+      ],
+      "role": "Candidate authorized desktop perception and correction capability",
+      "maturity": "Research/contracts/probes; no production daemon",
+      "dependencies": [
+        "Future evaluated perception runtime"
+      ],
+      "preserve_paths": [
+        "docs",
+        "Constitution",
+        "SBS"
+      ],
+      "data_policy": "Keep research evidence; external model caches are outside cleanup scope",
+      "relocation": "kept-in-place; entire small repository retained",
+      "next_contract": "Bounded screen/input permissions, interruption and correction evidence",
+      "evidence": "Product/curation/SBS-0004/audit-runtime-knowledge.md"
+    },
+    {
+      "id": "virtual-community",
+      "name": "VCPAI",
+      "kind": "application-and-research",
+      "path": "VCPAI",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/VCPAI",
+        "branch_at_curation": "codex/player-upgrade-positioning-20261007",
+        "baseline": "8f186ce5198d98adb50fb998ab04861a0d7acb17"
+      },
+      "entry_paths": [
+        "FrontAll/package.json",
+        "FrontAll/backend/package.json",
+        "release/windows-native/README.md",
+        "release/windows-native/Build-WindowsInstaller.ps1",
+        "docs/research/2026-10-07-upgrade-positioning/upgrade-report.md"
+      ],
+      "role": "Technical basis for VPC virtual community, interviews and simulations",
+      "maturity": "Independent application and research system; persistent community integration remains to be validated",
+      "dependencies": [
+        "Frontend/backend Node dependencies",
+        "PostgreSQL",
+        "DuckDB",
+        "Retained native vendor and release assets"
+      ],
+      "preserve_paths": [
+        "database",
+        "experimental/research",
+        "outputs",
+        "release/windows-native/vendor",
+        "release/windows-native/dist/VPC-AI-Setup-2.0.7.exe"
+      ],
+      "data_policy": "Preserve all 209 untracked research files and seven large local files; not backed up by cleaned Git history",
+      "relocation": "kept-in-place; only obsolete installers and verified build copies removed",
+      "next_contract": "Separate virtual-player identity from work-agent authority; validate permissions, recovery and human calibration",
+      "evidence": "Product/curation/SBS-0004/audit-crawler-vpc.md"
+    },
+    {
+      "id": "business-map",
+      "name": "Business Map",
+      "kind": "reference-prototypes",
+      "path": "References/BusinessMap",
+      "git": {
+        "scope": "local-only-reference",
+        "remote": null
+      },
+      "entry_paths": [
+        "BM-SOP.html",
+        "BM-SOP-审核标准版.html",
+        "bm-game/package.py",
+        "bm-studio/package.py",
+        "bm-town/package.py"
+      ],
+      "role": "SOP, review rules, capability-block ideas and training interactions",
+      "maturity": "Five static prototypes; no production business backend",
+      "dependencies": [
+        "Browser for HTML",
+        "Python for optional packaging"
+      ],
+      "preserve_paths": [
+        "bm-sop",
+        "bm-sop-review",
+        "bm-game",
+        "bm-town",
+        "bm-studio",
+        "原始文稿.docx",
+        "智能纪要.docx"
+      ],
+      "data_policy": "Preserve original business documents and templates; remove only byte-verified duplicate ZIPs",
+      "relocation": "whole reference tree moved after ZIP cleanup",
+      "next_contract": "Extract approved rules and business semantics into PRDs; demo values are not live facts",
+      "evidence": "Product/curation/SBS-0004/audit-workbench-business.md"
+    },
+    {
+      "id": "business-evidence",
+      "name": "工作盘点",
+      "kind": "business-source-material",
+      "path": "工作盘点",
+      "git": {
+        "scope": "independent",
+        "remote": "https://github.com/Dulongkai-Cui/OpenBP_Workbook",
+        "branch_at_curation": "main",
+        "baseline": "446ebb458d2ddb0e0c891ca04378726c828cfd84"
+      },
+      "entry_paths": [
+        "00_项目入口/业务全景.md",
+        "00_项目入口/当前口径与待确认.md"
+      ],
+      "role": "Source evidence for all six business areas",
+      "maturity": "Mixed original, historical and synthesized materials; validate current business meaning",
+      "dependencies": [],
+      "preserve_paths": [
+        "00_项目入口"
+      ],
+      "data_policy": "Entire tree preserved, including three pre-existing modified reading-index files",
+      "relocation": "kept-in-place",
+      "next_contract": "Confirm current scope and data definitions before business implementation",
+      "evidence": "Product/curation/SBS-0004/audit-workbench-business.md"
+    },
+    {
+      "id": "legacy-dashboard",
+      "name": "B站数据分析快照",
+      "kind": "historical-reference",
+      "path": "References/BilibiliDashboard",
+      "git": {
+        "scope": "root-tracked-assets",
+        "remote": null
+      },
+      "entry_paths": [
+        "index.html",
+        "使用说明.txt",
+        "启动看板.cmd",
+        "启动数据系统.cmd"
+      ],
+      "role": "Historical analysis and interaction reference",
+      "maturity": "Offline HTML retained; referenced online server missing before this task",
+      "dependencies": [
+        "Browser for offline content; missing legacy work/unified/system_server.py for old launchers"
+      ],
+      "preserve_paths": [
+        "无限大B站数据系统.html",
+        "无限大Logo.png"
+      ],
+      "data_policy": "Preserve all six files byte-for-byte; do not treat snapshots as live metrics",
+      "relocation": "whole six-file tree moved",
+      "next_contract": "Extract needed analysis contracts into the current platform, not reuse broken legacy startup",
+      "evidence": "Product/curation/SBS-0004/audit-workbench-business.md"
+    }
+  ],
+  "root_business_files_preserved": [
+    "三方号看板.docx",
+    "三方号上线项目进度管理.xlsx",
+    "发布管理-发布计划、发布日历、发布效果_V5.0.html"
+  ],
+  "local_recovery_roots": [
+    "_git_backups",
+    ".local/curation/SBS-0004"
+  ],
+  "preservation_semantics": "preserve_paths lists critical anchors, never an exhaustive allowlist for deletion; the whole component is kept except explicit reviewed curation actions"
+}
